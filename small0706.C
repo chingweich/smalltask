@@ -76,7 +76,7 @@ void small0706Base(string inputDir,string outputName,int option=0){
 						data.GetEntry(jEntry);
 						Float_t  quantileExpected = data.GetFloat("quantileExpected");
 						Double_t  limit = data.GetDouble("limit");
-						if(option==1)limit*=10;
+						if(option==1)limit*=8.3;
 						if(quantileExpected==0.5)th2[0]->Fill(i,j,limit);
 						if(quantileExpected==-1)th2[1]->Fill(i,j,limit);
 						
@@ -147,16 +147,17 @@ void small0706Base(string inputDir,string outputName,int option=0){
     //latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
-	
+	c1->SaveAs(Form("plot/%s.png",outputName.data()));
 }
 
-TH2D* small0706Compare(string inputDir[],string outputName,int option){
+TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
 	c1 = new TCanvas("c1","",1150,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
-	int inputZ[8]={2,4,6,8,10,13,16,21};
+	//int inputZ[8]={2,4,6,8,10,13,16,21};
+	int inputZ[8]={1,2,3,4,5,7,8,11};
 	int massA[6]={300,400,500,600,700,800};
 	
 	TH2D* th2[5];
@@ -170,8 +171,8 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
 	
 	TFile* tf1;
 	
-	tf1=TFile::Open("ScanPlot_fixgz.root");
-	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec2");
+	tf1=TFile::Open("ScanPlot_gz08.root");
+	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
 	
 	
 	for(int i=0;i<4;i++){
@@ -220,7 +221,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
 						if(data.GetEntriesFast()==0) quantileExpected = data2.GetFloat("quantileExpected");
 						if(data.GetEntriesFast()!=0)limit[0]= data.GetDouble("limit");
 						limit[1]= data2.GetDouble("limit");
-						if(option==1)limit[1]*=10;
+						if(option==1)limit[1]*=8.3;
 						if(i==3 &&j==1){
 							cout<<limit[0]<<","<<limit[1]<<","<<quantileExpected<<endl;
 							}
@@ -231,7 +232,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
 							th2[0]->Fill(i,j,limit[0]<limit[1]?limit[0]:limit[1]);
 							isData1=limit[0]<limit[1]?1:0;
 							
-							th2[2]->Fill(i,j,(limit[0]<limit[1]?limit[0]:limit[1])*1000/th2f2->GetBinContent(inputZ[i],j+2));
+							th2[2]->Fill(i,j,(limit[0]<limit[1]?limit[0]:limit[1])/th2f2->GetBinContent(inputZ[i],j+2));
 							if (isData1)th2[4]->Fill(i,j,1);
 							else th2[4]->Fill(i,j,2);
 						}
@@ -239,8 +240,8 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
 							if(isData1)th2[1]->Fill(i,j,limit[0]);
 							else th2[1]->Fill(i,j,limit[1]);
 							
-							if(isData1)th2[3]->Fill(i,j,limit[0]*1000/th2f2->GetBinContent(inputZ[i],j+2));
-							else th2[3]->Fill(i,j,limit[1]*1000/th2f2->GetBinContent(inputZ[i],j+2));
+							if(isData1)th2[3]->Fill(i,j,limit[0]/th2f2->GetBinContent(inputZ[i],j+2));
+							else th2[3]->Fill(i,j,limit[1]/th2f2->GetBinContent(inputZ[i],j+2));
 						}
 						
 				}
@@ -295,7 +296,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
 	th2[1]->SetYTitle("");
 	th2[3]->SetXTitle("");
 	th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.5f ");
+   gStyle->SetPaintTextFormat(" 4.4f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -311,9 +312,12 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option){
     //latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
-	
-	return th2[3];
-	
+	c1->SaveAs(Form("plot/%s.png",outputName.data()));
+	if (retrunexp==0)return th2[0];
+	else if (retrunexp==1)return th2[1];
+	else if (retrunexp==2)return th2[2];
+	else if (retrunexp==3)return th2[3];
+	else return th2[0];
 }
 
 void smallDrawTGragh(string outputName,TH2D* th1,int option=0){
@@ -362,7 +366,7 @@ void smallDrawTGragh(string outputName,TH2D* th1,int option=0){
 			tg1[i]->GetXaxis()->SetTitle("m_{Zp}[GeV]");
 			//tg1[i]->SetMaximum(1.3);
 			tg1[i]->SetMaximum(101);
-			if(option==1)tg1[i]->SetMaximum(0.2);
+			if(option==1)tg1[i]->SetMaximum(0.2/0.577);
 			tg1[i]->SetMinimum(0);
 		}
 		else tg1[i]->Draw("PL.same");
@@ -391,6 +395,7 @@ void smallDrawTGragh(string outputName,TH2D* th1,int option=0){
     latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
 	//
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
+	c1->SaveAs(Form("plot/%s.png",outputName.data()));
 	tg1[0]->SetMaximum(250);
 	tg1[0]->SetMinimum(0.1);
 	c1->SetLogy(1);
@@ -406,7 +411,8 @@ void smallDrawTGragh(string outputName,TH2D* th1,int option=0){
   one->SetLineWidth(2);
   one->Draw("same");
 	
-	c1->Print(Form("plot/%sobsLog.pdf",outputName.data()));
+	c1->Print(Form("plot/%sLog.pdf",outputName.data()));
+	c1->SaveAs(Form("plot/%sLog.png",outputName.data()));
 }
 
 TH2D* readTxt(string inputDir,string outputName,int option=0){
@@ -425,12 +431,14 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 			double db1=0;
 			file1>>db1;
 			db1/=23000;
-			if(option==1)db1*=10;
+			db1/=0.577;
+			if(option==1)db1*=8.3;
 			th2[0]->Fill(i,j,db1);
 		}
 	}
 	th2[0]->Draw("colztext");
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
+	c1->SaveAs(Form("plot/%s.png",outputName.data()));
 	return th2[0];
 }
 
@@ -448,26 +456,96 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	}
 	th3->Draw("colztext");
 	c1->Print("plot/effMax.pdf");
+	c1->SaveAs("plot/effMax.png");
 	return th3;
 }
 
+TGraph* excludeLimit(TH2D* th2){
+		double massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+		double y[8]={0};
+		
+		for(int i=0;i<8;i++){
+			for(int j=0;j<6;j++){
+				//cout<<th2->GetBinContent(i+1,j+1)<<"c"<<endl;
+				if(th2->GetBinContent(i+1,j+1)<1)continue;
+				else {
+					//cout<<th2->GetBinContent(i+1,j+1)<<endl;
+					if(j==0)y[i]=0;
+					else {
+						double x=(1-th2->GetBinContent(i+1,j))/(th2->GetBinContent(i+1,j+1)-th2->GetBinContent(i+1,j));
+						y[i]=300+(j+x-1)*100;
+					}
+					break;
+				}
+			}	
+		}
+		
+		for(int i=0;i<8;i++)cout<<"y["<<i<<"]="<<y[i]<<endl;
+		TGraph* tg1=new TGraph(8,massZ,y);
+		return tg1;
+}
+
+void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
+	TCanvas* c1;
+	setNCUStyle();
+	c1 = new TCanvas("c1","",1150,768);
+	
+	tg2->SetFillColor(0);
+	tg1->SetFillColor(0);
+	tg2->SetLineColor(2);
+	tg1->Draw("APL");
+	c1->Print("exclude.pdf");
+	tg1->SetLineWidth(tg1->GetLineWidth()*2);
+	tg2->SetLineWidth(tg2->GetLineWidth()*2);
+	
+	tg1->Draw("APL");
+	tg2->Draw("PL,same");
+	tg1->SetMinimum(800);
+	tg1->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
+	
+	TLegend* leg ;
+	leg=new TLegend(0.711452,0.652447,0.940645,0.863966);
+	leg->SetFillColor(0);
+	leg->SetFillStyle(0);
+	leg->AddEntry(tg1,"exp");
+	leg->AddEntry(tg2,"obs");
+	leg->Draw("same");
+	
+	
+	c1->Print("plot/exclude.pdf");
+	c1->SaveAs("plot/exclude.png");
+}
+
 void small0706(){
-	small0706Base("boost","boosted");
-	small0706Base("ResolvedRootfiles","resolvedRootfiles",1);
+	small0706Base("boost","limit_boosted");
+	small0706Base("ResolvedRootfiles","limit_resolved",1);
 	string in[2]={"boost","ResolvedRootfiles"};
 	
 	TH2D* th2;
-	th2=small0706Compare(in,"compare",1);
+	th2=small0706Compare(in,"limit_compare",1,2);
 	
-	smallDrawTGragh("tg1",th2);
+	TGraph* tg1,*tg2;
+	tg1=excludeLimit(th2);
 	
-	th2=readTxt("efficiencyresolved","effresolved");
+	smallDrawTGragh("limit_compare1D_exp",th2);
+	th2=small0706Compare(in,"limit_compare",1,3);
+	
+	tg2=excludeLimit(th2);
+	
+	drawExcludeLimit(tg1,tg2);
+	/*
+	smallDrawTGragh("limit_compare1D_obs",th2);
+	
+	th2=readTxt("efficiencyresolved","eff_resolved");
 	TH2D* th3;
-	th3=readTxt("efficiencyboosted","eff2boosted",1);
+	th3=readTxt("efficiencyboosted","eff_boosted",1);
 	TH2D* th4;
 	th4=TH2DComparer(th2,th3);
 	
 	smallDrawTGragh("eff1D",th4,1);
+	
+	*/
 }
 
 
