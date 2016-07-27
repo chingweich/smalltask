@@ -37,7 +37,7 @@ void small0706Base(string inputDir,string outputName,int option=0){
 	c1 = new TCanvas("c1","",1150,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
-	int inputZ[8]={2,4,6,8,10,13,16,21};
+	int inputZ[8]={1,2,3,4,5,7,8,11};
 	int massA[6]={300,400,500,600,700,800};
 	
 	TH2D* th2[4];
@@ -49,8 +49,8 @@ void small0706Base(string inputDir,string outputName,int option=0){
 	
 	TFile* tf1;
 	
-	tf1=TFile::Open("ScanPlot_fixgz.root");
-	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec2");
+	tf1=TFile::Open("ScanPlot_gz08.root");
+	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
 	
 	
 	for(int i=0;i<4;i++){
@@ -80,8 +80,8 @@ void small0706Base(string inputDir,string outputName,int option=0){
 						if(quantileExpected==0.5)th2[0]->Fill(i,j,limit);
 						if(quantileExpected==-1)th2[1]->Fill(i,j,limit);
 						
-						if(quantileExpected==0.5)th2[2]->Fill(i,j,limit*1000/th2f2->GetBinContent(inputZ[i],j+2));
-						if(quantileExpected==-1)th2[3]->Fill(i,j,limit*1000/th2f2->GetBinContent(inputZ[i],j+2));
+						if(quantileExpected==0.5)th2[2]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+						if(quantileExpected==-1)th2[3]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
 				}
 				
 		}
@@ -92,14 +92,15 @@ void small0706Base(string inputDir,string outputName,int option=0){
 		th2[0]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 		th2[1]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 		th2[2]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
-		th2[3]->GetXaxis()->SetBinLabel(i+1,"");
+		th2[3]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
+
 	}
 	for(int j=0;j<6;j++){
 		
 		th2[0]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 		th2[1]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 		th2[2]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
-		th2[3]->GetYaxis()->SetBinLabel(j+1,"");
+		th2[3]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 	}
 	th2[2]->Draw("colz,text");
 	c1->Print("expected.pdf");
@@ -130,8 +131,8 @@ void small0706Base(string inputDir,string outputName,int option=0){
 	}
 	th2[1]->SetXTitle("");
 	th2[1]->SetYTitle("");
-	th2[3]->SetXTitle("");
-	th2[3]->SetYTitle("");
+	//th2[3]->SetXTitle("");
+	//th2[3]->SetYTitle("");
    gStyle->SetPaintTextFormat(" 4.5f ");
    
    p2->Range(x1,y1,x2,y2);
@@ -175,7 +176,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
 	
 	
-	for(int i=0;i<4;i++){
+	for(int i=0;i<5;i++){
 		th2[i]->SetXTitle("m_{Zp}[GeV]");
 		th2[i]->SetYTitle("m_{A0}[GeV]");
 		th2[i]->SetMarkerSize(2);
@@ -254,14 +255,14 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 		th2[4]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 		th2[1]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 		th2[2]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
-		th2[3]->GetXaxis()->SetBinLabel(i+1,"");
+		th2[3]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 	}
 	for(int j=0;j<6;j++){
 		
 		th2[4]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 		th2[1]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 		th2[2]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
-		th2[3]->GetYaxis()->SetBinLabel(j+1,"");
+		th2[3]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 	}
 	th2[4]->Draw("colz");
 	th2[0]->Draw("text,same");
@@ -294,8 +295,8 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	}
 	th2[1]->SetXTitle("");
 	th2[1]->SetYTitle("");
-	th2[3]->SetXTitle("");
-	th2[3]->SetYTitle("");
+	//th2[3]->SetXTitle("");
+	//th2[3]->SetYTitle("");
    gStyle->SetPaintTextFormat(" 4.4f ");
    
    p2->Range(x1,y1,x2,y2);
@@ -317,6 +318,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	else if (retrunexp==1)return th2[1];
 	else if (retrunexp==2)return th2[2];
 	else if (retrunexp==3)return th2[3];
+	else if (retrunexp==4)return th2[4];
 	else return th2[0];
 }
 
@@ -351,8 +353,11 @@ void smallDrawTGragh(string outputName,TH2D* th1,int option=0){
 	tg1[4]=new TGraph(5,massZ4,db5);
 	tg1[5]=new TGraph(6,massZ3,db6);
 	
+	
+	
 	for(int i=0;i<6;i++){
 		//tg1[i]=new TGraph(8,massZ,db[i]);
+		
 		if(i==1)tg1[i]->SetLineColor(7);
 			else tg1[i]->SetLineColor(i+1);
 		tg1[i]->SetTitle("");
@@ -436,6 +441,13 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 			th2[0]->Fill(i,j,db1);
 		}
 	}
+	
+	for(int i=0;i<8;i++)th2[0]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
+	for(int i=0;i<6;i++)th2[0]->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
+	th2[0]->SetXTitle("m_{Zp}[GeV]");
+		th2[0]->SetYTitle("m_{A0}[GeV]");
+	th2[0]->SetMarkerSize(2);
+	th2[0]->SetTitle(Form("%s",outputName.data()));
 	th2[0]->Draw("colztext");
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -443,6 +455,10 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 }
 
 TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
+		int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	
+	int massA[6]={300,400,500,600,700,800};
+	
 	TCanvas* c1,*c2;
 	setNCUStyle();
 	c1 = new TCanvas("c1","",1150,768);
@@ -454,6 +470,11 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 			th3->SetBinContent(i+1,j+1,a>b?a:b);
 		}
 	}
+	for(int i=0;i<8;i++)th3->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
+	for(int i=0;i<6;i++)th3->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
+	th3->SetXTitle("m_{Zp}[GeV]");
+		th3->SetYTitle("m_{A0}[GeV]");
+		th3->SetMarkerSize(2);
 	th3->Draw("colztext");
 	c1->Print("plot/effMax.pdf");
 	c1->SaveAs("plot/effMax.png");
@@ -488,20 +509,109 @@ TGraph* excludeLimit(TH2D* th2){
 void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	TCanvas* c1;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	tg2->SetFillColor(0);
 	tg1->SetFillColor(0);
 	tg2->SetLineColor(2);
 	tg1->Draw("APL");
 	c1->Print("exclude.pdf");
+	tg1->SetLineWidth(3);
+	tg2->SetLineWidth(3);
+	tg1->SetTitle("");
+	tg1->Draw("APL");
+	tg2->Draw("PL,same");
+	tg1->SetMaximum(800);
+	tg1->SetMinimum(300);
+	tg1->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+	tg1->GetXaxis()->SetRangeUser(600,1400);
+	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
+	
+	TLegend* leg ;
+	leg=new TLegend(0.711452,0.652447,0.940645,0.863966);
+	leg->SetFillColor(0);
+	leg->SetFillStyle(0);
+	leg->AddEntry(tg1,"expected");
+	leg->AddEntry(tg2,"observed");
+	leg->Draw("same");
+	
+	TLatex * latex = new TLatex();
+    latex->SetNDC();
+    latex->SetTextSize(0.03);
+    latex->SetTextAlign(10); // align left
+    latex->SetNDC(kTRUE);                                                                                                                        
+	latex->SetTextFont(62);
+	//latex->SetBBoxY2 (0.88);
+    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
+	
+	
+	c1->Print("plot/exclude.pdf");
+	c1->SaveAs("plot/exclude.png");
+}
+
+void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
+	TCanvas* c1;
+	setNCUStyle();
+	c1 = new TCanvas("c1","",1150,768);
+	/*
+	double yy1[8],yy2[8];
+	for(int i=0;i<8;i++){
+		yy1[i]=0;
+	}
+	*/
+	c1->Clear();
+	
+	TPad *p1 = new TPad("p1","",0,0.09,1,0.89);
+   p1->Draw();
+   p1->cd();
+   
+    
+   
+	tg1->Draw("APL");
+	tg2->Draw("PL,same");
+	th2[2]->Draw("colz,same");
+   th2[1]->Draw("TEXT,same ");
+   p1->Update();
+   Double_t x1,y1,x2,y2;
+   gPad->GetRange(x1,y1,x2,y2);
+
+   c1->cd();
+   TPad *p2 = new TPad("p2","",0,0.12,1,0.92);
+   p2->SetFillStyle(0);
+   p2->SetFillColor(0);
+   p2->Draw();
+   p2->cd();
+   
+  
+   gStyle->SetPaintTextFormat(" 4.4f ");
+   
+   p2->Range(x1,y1,x2,y2);
+   th2[0]->Draw("TEXTSAME");
+	
+	TLatex * latex = new TLatex();
+    latex->SetNDC();
+    latex->SetTextSize(0.05);
+    latex->SetTextAlign(12); // align left
+    latex->SetNDC(kTRUE);                                                                                                                        
+	latex->SetTextFont(62);
+	//latex->SetBBoxY2 (0.88);
+    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
+    //latex->DrawLatex(0.18, 0.885, );
+	
+	
+	tg2->SetFillColor(0);
+	tg1->SetFillColor(0);
+	tg2->SetLineColor(2);
+	//tg1->Draw("APL");
+	//c1->Print("exclude.pdf");
 	tg1->SetLineWidth(tg1->GetLineWidth()*2);
 	tg2->SetLineWidth(tg2->GetLineWidth()*2);
 	
-	tg1->Draw("APL");
-	tg2->Draw("PL,same");
-	tg1->SetMinimum(800);
+	
+	tg1->SetMaximum(800);
+	tg1->SetMinimum(300);
 	tg1->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+	tg1->GetXaxis()->SetRangeUser(600,2500);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
 	TLegend* leg ;
@@ -510,11 +620,12 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	leg->SetFillStyle(0);
 	leg->AddEntry(tg1,"exp");
 	leg->AddEntry(tg2,"obs");
-	leg->Draw("same");
+	//leg->Draw("same");
+	//c1->Print("plot/exclude2D.pdf");
 	
 	
-	c1->Print("plot/exclude.pdf");
-	c1->SaveAs("plot/exclude.png");
+	//c1->Print("plot/exclude.pdf");
+	//c1->SaveAs("plot/exclude.png");
 }
 
 void small0706(){
@@ -522,30 +633,41 @@ void small0706(){
 	small0706Base("ResolvedRootfiles","limit_resolved",1);
 	string in[2]={"boost","ResolvedRootfiles"};
 	
-	TH2D* th2;
+	TH2D* th2,*th3,*th4;
 	th2=small0706Compare(in,"limit_compare",1,2);
 	
 	TGraph* tg1,*tg2;
 	tg1=excludeLimit(th2);
 	
 	smallDrawTGragh("limit_compare1D_exp",th2);
-	th2=small0706Compare(in,"limit_compare",1,3);
+	th3=small0706Compare(in,"limit_compare",1,3);
+	th4=small0706Compare(in,"limit_compare",1,4);
 	
-	tg2=excludeLimit(th2);
+	tg2=excludeLimit(th3);
 	
 	drawExcludeLimit(tg1,tg2);
-	/*
-	smallDrawTGragh("limit_compare1D_obs",th2);
 	
-	th2=readTxt("efficiencyresolved","eff_resolved");
-	TH2D* th3;
-	th3=readTxt("efficiencyboosted","eff_boosted",1);
-	TH2D* th4;
+	TH2D* vct[3];
+	vct[0]=th2;
+	vct[1]=th3;
+	vct[2]=th4;
+	//vct.push_back(th2);
+	//vct.push_back(th3);
+	//vct.push_back(th4);
+	
+	drawExcludeLimitWith2D(tg1,tg2,vct);
+	
+	smallDrawTGragh("limit_compare1D_obs",th3);
+	
+	th2=readTxt("efficiencyresolved","efficiency_resolved");
+	//TH2D* th3;
+	th3=readTxt("efficiencyboosted","effciency_boosted",1);
+	//TH2D* th4;
 	th4=TH2DComparer(th2,th3);
 	
 	smallDrawTGragh("eff1D",th4,1);
 	
-	*/
+	
 }
 
 
