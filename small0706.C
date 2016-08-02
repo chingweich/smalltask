@@ -448,6 +448,7 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 		th2[0]->SetYTitle("m_{A0}[GeV]");
 	th2[0]->SetMarkerSize(2);
 	th2[0]->SetTitle(Form("%s",outputName.data()));
+	gStyle->SetPaintTextFormat(" 4.4f ");
 	th2[0]->Draw("colztext");
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -473,8 +474,9 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	for(int i=0;i<8;i++)th3->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 	for(int i=0;i<6;i++)th3->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
 	th3->SetXTitle("m_{Zp}[GeV]");
-		th3->SetYTitle("m_{A0}[GeV]");
-		th3->SetMarkerSize(2);
+	th3->SetYTitle("m_{A0}[GeV]");
+	th3->SetMarkerSize(2);
+	gStyle->SetPaintTextFormat(" 4.4f ");
 	th3->Draw("colztext");
 	c1->Print("plot/effMax.pdf");
 	c1->SaveAs("plot/effMax.png");
