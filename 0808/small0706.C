@@ -681,9 +681,24 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	//c1->SaveAs("plot/exclude.png");
 }
 
-void makeEffTex(TH2D*,string outputName=""){
+void makeTex(TH2D* th2,string outputName=""){
 	
+	ofstream myfile;
+	myfile.open (Form("table/%s.txt",outputName.data()));
 	
+	int massA[6]={300,400,500,600,700,800};
+	
+	for (int i=0; i<6;i++){
+		myfile<<massA[i]<<" & "
+		<< th2->GetBinContent(1,i+1) <<" & "
+		<< th2->GetBinContent(2,i+1) <<" & "
+		<< th2->GetBinContent(3,i+1) <<" & "
+		<< th2->GetBinContent(4,i+1) <<" & "
+		<< th2->GetBinContent(5,i+1) <<" & "
+		<< th2->GetBinContent(6,i+1) <<" & "
+		<< th2->GetBinContent(7,i+1) <<" & "
+		<< th2->GetBinContent(8,i+1) <<" \\\\ "<<endl;
+	}
 	
 }
 
@@ -700,6 +715,8 @@ void small0706(){
 	tg1=excludeLimit(th2);
 	
 	thh[0]=th2;
+	makeTex(th2,"limit_compare_expTable");
+	
 	smallDrawTGragh("limit_compare1D_exp",thh);
 	th3=small0706Compare(in,"limit_compare",1,3);
 	th4=small0706Compare(in,"limit_compare",1,4);
@@ -719,6 +736,7 @@ void small0706(){
 	drawExcludeLimitWith2D(tg1,tg2,vct);
 	
 	thh[1]=th3;
+	makeTex(th3,"limit_compare_obsTable");
 	smallDrawTGragh("limit_compare1D_obs",thh,2);
 	
 	
@@ -732,7 +750,7 @@ void small0706(){
 	thh[0]=th4;
 	smallDrawTGragh("eff1D",thh,1);
 	
-	
+	makeTex(th4,"effTable");
 }
 
 
