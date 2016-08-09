@@ -567,7 +567,7 @@ TGraph* excludeLimit(TH2D* th2){
 
 void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	TCanvas* c1;
-	setNCUStyle();
+	setNCUStyle(1);
 	c1 = new TCanvas("c1","",889,768);
 	
 	tg2->SetFillColor(0);
