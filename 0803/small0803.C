@@ -703,6 +703,14 @@ void small0803(){
 	thh[0]=th2;
 	thh[1]=th3;
 	
+	th2->SetName("exp");
+	th3->SetName("obs");
+	TFile* outFile = new TFile("output.root","recreate");
+	th2->Write();
+	th3->Write();
+	outFile->Close();
+	
+	
 	smallDrawTGragh("limit_compare1D",thh,2);
 	//smallDrawTGragh("limit_compare1D_obs",th3);
 	//th3=small0706Compare(in,"limit_compare",1,3);
