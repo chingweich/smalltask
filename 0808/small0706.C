@@ -213,6 +213,10 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 					limit[0]=1000;
 					jEntryMax=data2.GetEntriesFast();
 				}
+				if(data2.GetEntriesFast()==0){
+					limit[1]=1000;
+					//jEntryMax=data2.GetEntriesFast();
+				}
 				if(i==3 &&j==1)cout<<"jMax="<<jEntryMax<<endl;
 				for(Long64_t jEntry=0; jEntry< jEntryMax;jEntry++){
 						data.GetEntry(jEntry);
@@ -235,8 +239,10 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 							isData1=limit[0]<limit[1]?1:0;
 							
 							th2[2]->Fill(i,j,(limit[0]<limit[1]?limit[0]:limit[1])/th2f2->GetBinContent(inputZ[i],j+2));
-							if (isData1)th2[4]->Fill(i,j,1);
-							else th2[4]->Fill(i,j,2);
+							//if (isData1)th2[4]->Fill(i,j,1);
+							//else th2[4]->Fill(i,j,2);
+							th2[4]->Fill(i,j,(limit[0]<limit[1]||limit[0]==limit[1])?1:2);
+							cout<<i<<","<<j<<","<<(limit[0]<limit[1]?1:2)<<","<<limit[0]<<","<<limit[1]<<endl;
 						}
 						if(quantileExpected==-1){
 							if(isData1)th2[1]->Fill(i,j,limit[0]);
