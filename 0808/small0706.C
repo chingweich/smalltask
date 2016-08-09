@@ -419,7 +419,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 			tg1[i]->GetXaxis()->SetTitle("m_{Zp}[GeV]");
 			//tg1[i]->SetMaximum(1.3);
 			tg1[i]->SetMaximum(101);
-			if(option==1)tg1[i]->SetMaximum(0.15);
+			if(option==1)tg1[i]->SetMaximum(0.31);
 			tg1[i]->SetMinimum(0);
 		}
 		else {
@@ -486,7 +486,7 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 			fstream file1(Form("%s/ratelineMZp%d_MA0%d.txt",inputDir.data(),massZ[i],massA[j]));
 			double db1=0;
 			file1>>db1;
-			db1/=23000;
+			db1/=2300;
 			db1/=0.577;
 			//if(option==1)db1*=8.3;
 			th2[0]->Fill(i,j,db1);
