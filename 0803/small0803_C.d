@@ -142,8 +142,7 @@
 ./small0803_C.so: /home/neutron/root/include/TLeafElement.h
 ./small0803_C.so: /home/neutron/root/include/TBranchElement.h
 ./small0803_C.so: /home/neutron/root/include/TClonesArray.h
-./small0803_C.so: /usr/include/c++/5/sstream
-./small0803_C.so: ../../HHbbbbAnalyzer/setNCUStyle.C
+./small0803_C.so: /usr/include/c++/5/sstream setNCUStyle.C
 ./small0803_C.so: /home/neutron/root/include/TH2.h
 ./small0803_C.so: /home/neutron/root/include/TLine.h
 ./small0803_C.so: /home/neutron/root/include/TF1.h
@@ -156,4 +155,4 @@
 ./small0803_C.so: /home/neutron/root/include/TLatex.h
 ./small0803_C.so: /home/neutron/root/include/TText.h
 ./small0803_C.so: /home/neutron/root/include/RVersion.h /home/neutron/root/include/RConfig.h /home/neutron/root/include/TClass.h /home/neutron/root/include/TDictAttributeMap.h /home/neutron/root/include/TInterpreter.h /home/neutron/root/include/TROOT.h /home/neutron/root/include/TBuffer.h /home/neutron/root/include/TMemberInspector.h /home/neutron/root/include/TError.h /home/neutron/root/include/RtypesImp.h /home/neutron/root/include/TIsAProxy.h /home/neutron/root/include/TFileMergeInfo.h /home/neutron/root/include/TCollectionProxyInfo.h
-small0803_C__ROOTBUILDVERSION= 6.06/02
+small0803_C__ROOTBUILDVERSION= 6.06/06

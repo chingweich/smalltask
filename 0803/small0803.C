@@ -23,7 +23,7 @@
 #include <TSystem.h>
 #include <string>
 #include <sstream>
-#include "../../HHbbbbAnalyzer/setNCUStyle.C"
+#include "setNCUStyle.C"
 #include<TH2.h>
 #include "TLine.h"
 #include "TF1.h"
@@ -55,7 +55,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	
 	
 	for(int i=0;i<4;i++){
-		th2[i]->SetXTitle("m_{Zp}[GeV]");
+		th2[i]->SetXTitle("m_{Z'}[GeV]");
 		th2[i]->SetYTitle("m_{A0}[GeV]");
 		th2[i]->SetMarkerSize(2);
 	}
@@ -143,12 +143,12 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	
 	TLatex * latex = new TLatex();
     latex->SetNDC();
-    latex->SetTextSize(0.05);
+    //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextFont(62);
-    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
-    //latex->DrawLatex(0.18, 0.885, );
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -188,7 +188,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	
 	
 	for(int i=0;i<5;i++){
-		th2[i]->SetXTitle("m_{Zp}[GeV]");
+		th2[i]->SetXTitle("m_{Z'}[GeV]");
 		th2[i]->SetYTitle("m_{A0}[GeV]");
 		th2[i]->SetMarkerSize(2);
 	}
@@ -315,13 +315,13 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	
 	TLatex * latex = new TLatex();
     latex->SetNDC();
-    latex->SetTextSize(0.05);
+    //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextFont(62);
-	//latex->SetBBoxY2 (0.88);
-    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
-    //latex->DrawLatex(0.18, 0.885, );
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+	//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -423,7 +423,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 		if(i==0){
 			tg1[i]->Draw("APL");
 			if(option==2)tg2[i]->Draw("PL.same");
-			tg1[i]->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+			tg1[i]->GetXaxis()->SetTitle("m_{Z'}[GeV]");
 			//tg1[i]->SetMaximum(1.3);
 			tg1[i]->SetMaximum(101);
 			if(option==1)tg1[i]->SetMaximum(0.31);
@@ -436,9 +436,9 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	}
 	
 	TLegend* leg ;
-	if(option==1)leg=new TLegend(0.711452,0.152447,0.940645,0.463966);
-	else leg=new TLegend(0.711452,0.652447,0.940645,0.863966);
-	 leg->SetFillColor(0);
+	if(option==1)leg=new TLegend(0.711452,0.152447,0.980645,0.53966);
+	else leg=new TLegend(0.711452,0.652447,0.960645,0.913966);
+	leg->SetFillColor(0);
 	leg->SetFillStyle(0);
 	leg->AddEntry(tg1[0],"m_{A0}=300GeV");
 	leg->AddEntry(tg1[1],"m_{A0}=400GeV");
@@ -446,16 +446,36 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	leg->AddEntry(tg1[3],"m_{A0}=600GeV");
 	leg->AddEntry(tg1[4],"m_{A0}=700GeV");
 	leg->AddEntry(tg1[5],"m_{A0}=800GeV");
-	 leg->SetTextSize(0.025);
+	if(option==2){
+		leg->Clear();
+		leg->AddEntry(tg2[0],"m_{A0}=300GeV");
+		leg->AddEntry(tg2[1],"m_{A0}=400GeV");
+		leg->AddEntry(tg2[2],"m_{A0}=500GeV");
+		leg->AddEntry(tg2[3],"m_{A0}=600GeV");
+		leg->AddEntry(tg2[4],"m_{A0}=700GeV");
+		leg->AddEntry(tg2[5],"m_{A0}=800GeV");
+	}
+	 leg->SetTextSize(0.035);
 	leg->Draw("same");
+	TLegend* leg2 ;
+	leg2=new TLegend(0.451452,0.752447,0.711452,0.913966);
+	TH1D* thL1=new TH1D("","",1,0,1);
+	TH1D* thL2=new TH1D("","",1,0,1);
 	
+	thL2->SetLineStyle(7);
+	leg2->AddEntry(thL1,"observed");
+	leg2->AddEntry(thL2,"expected");
+	
+	if(option!=1)leg2->Draw("same");
 	TLatex * latex = new TLatex();
     latex->SetNDC();
-    latex->SetTextSize(0.03);
+    //latex->SetTextSize(0.03);
     latex->SetTextAlign(10); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextFont(62);
-    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    if(option==2)latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+	else latex->DrawLatex(0.15, 0.92, Form("CMS                                              %.1f fb^{-1} ( 13 TeV )", 2.32));
 	//
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -502,7 +522,7 @@ TH2D* readTxt(string inputDir,string outputName,int option=0){
 	
 	for(int i=0;i<8;i++)th2[0]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 	for(int i=0;i<6;i++)th2[0]->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
-	th2[0]->SetXTitle("m_{Zp}[GeV]");
+	th2[0]->SetXTitle("m_{Z'}[GeV]");
 		th2[0]->SetYTitle("m_{A0}[GeV]");
 	th2[0]->SetMarkerSize(2);
 	th2[0]->SetTitle(Form("%s",outputName.data()));
@@ -531,7 +551,7 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	}
 	for(int i=0;i<8;i++)th3->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 	for(int i=0;i<6;i++)th3->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
-	th3->SetXTitle("m_{Zp}[GeV]");
+	th3->SetXTitle("m_{Z'}[GeV]");
 	th3->SetYTitle("m_{A0}[GeV]");
 	th3->SetMarkerSize(2);
 	gStyle->SetPaintTextFormat(" 4.4f ");
@@ -583,7 +603,7 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	tg2->Draw("PL,same");
 	tg1->SetMaximum(800);
 	tg1->SetMinimum(300);
-	tg1->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+	tg1->GetXaxis()->SetTitle("m_{Z'}[GeV]");
 	tg1->GetXaxis()->SetRangeUser(600,1400);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
@@ -597,12 +617,12 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	
 	TLatex * latex = new TLatex();
     latex->SetNDC();
-    latex->SetTextSize(0.03);
+    //latex->SetTextSize(0.03);
     latex->SetTextAlign(10); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextFont(62);
-	//latex->SetBBoxY2 (0.88);
-    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
 	
 	c1->Print("plot/exclude.pdf");
@@ -650,13 +670,13 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	
 	TLatex * latex = new TLatex();
     latex->SetNDC();
-    latex->SetTextSize(0.05);
+    //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextFont(62);
-	//latex->SetBBoxY2 (0.88);
-    latex->DrawLatex(0.18, 0.92, Form("CMS Preliminary   #sqrt{s} = 13 TeV    #intL = %.1f fb^{-1}", 2.32));
-    //latex->DrawLatex(0.18, 0.885, );
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+	//latex->DrawLatex(0.18, 0.885, );
 	
 	
 	tg2->SetFillColor(0);
@@ -670,7 +690,7 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	
 	tg1->SetMaximum(800);
 	tg1->SetMinimum(300);
-	tg1->GetXaxis()->SetTitle("m_{Zp}[GeV]");
+	tg1->GetXaxis()->SetTitle("m_{Z'}[GeV]");
 	tg1->GetXaxis()->SetRangeUser(600,2500);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
