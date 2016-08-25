@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/afs/cern.ch/work/k/khurana/MonoHCombination/CMSSW_7_1_5/bin/slc6_amd64_gcc481/combineCards.py", line 46, in <module>
-    file = open(fname, "r")
-IOError: [Errno 2] No such file or directory: 'Datacards_2HDM_xsec1pb_gg/DataCard_2HDM_mZP2500_mA0400_NEW.txt'
