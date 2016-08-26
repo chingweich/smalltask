@@ -58,17 +58,20 @@ void ratio0809(){
 		th1[i]->SetXTitle("m_{Zp}[GeV]");
 		th1[i]->SetYTitle("m_{A0}[GeV]");
 		//th2[i]->SetMarkerSize(2);
+		//th1[i]->SetMinimum(0.8);
 	}
 	
 	TCanvas* c1,*c2;
 	TStyle* ts =setNCUStyle();
 	ts->SetPadRightMargin(0.12);
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	
 	TPad *p1 = new TPad("p1","",0,0.09,1,0.89);
    p1->Draw();
    p1->cd();
+   th1[1]->SetMaximum(1.01);
+   th1[1]->SetMinimum(0.78);
    th1[1]->Draw("TEXT,same  colz");
    p1->Update();
    Double_t x1,y1,x2,y2;
@@ -82,11 +85,20 @@ void ratio0809(){
    p2->cd();
    
    
+   	TLatex * latex = new TLatex();
+    latex->SetNDC();
+    //latex->SetTextSize(0.05);
+    latex->SetTextAlign(12); // align left
+    latex->SetNDC(kTRUE);                                                                                                                        
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                                        %.1f fb^{-1} ( 13 TeV )", 2.32));
+   
 	th1[0]->SetXTitle("");
 	//th1[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.4f ");
+   gStyle->SetPaintTextFormat(" 4.3f ");
    
    p2->Range(x1,y1,x2,y2);
    th1[0]->Draw("TEXTSAME");

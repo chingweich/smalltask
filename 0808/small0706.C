@@ -34,7 +34,7 @@
 void small0706Base(string inputDir,string outputName,int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	int inputZ[8]={1,2,3,4,5,7,8,11};
@@ -146,7 +146,7 @@ void small0706Base(string inputDir,string outputName,int option=0){
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+    latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
 	//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
@@ -156,7 +156,7 @@ void small0706Base(string inputDir,string outputName,int option=0){
 TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	//int inputZ[8]={2,4,6,8,10,13,16,21};
@@ -317,8 +317,8 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
-	//latex->DrawLatex(0.18, 0.885, );
+  latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
+		//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -333,7 +333,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	double db1[8]={0};
 	double db2[8]={0};
 	double db3[7]={0};
@@ -477,8 +477,10 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
     latex->SetNDC(kTRUE);                 
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    if(option==2)latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
-	else latex->DrawLatex(0.15, 0.92, Form("CMS                                              %.1f fb^{-1} ( 13 TeV )", 2.32));
+    if(option==2) latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
+	
+	else latex->DrawLatex(0.15, 0.92, Form("CMS                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+	
 	
 	//
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
@@ -505,7 +507,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 TH2D* readTxt(string inputDir,string outputName,int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	int inputZ[8]={2,4,6,8,10,13,16,21};
 	int massA[6]={300,400,500,600,700,800};
@@ -544,7 +546,7 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	TH2D* th3;
 	th3=new TH2D("eff","eff",8,0,8,6,0,6);
 	for(int i=0;i<8;i++){
@@ -627,7 +629,8 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                        %.1f fb^{-1} ( 13 TeV )", 2.32));
+  latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
+	
 	
 	
 	c1->Print("plot/exclude.pdf");
@@ -637,7 +640,7 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	TCanvas* c1;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	/*
 	double yy1[8],yy2[8];
 	for(int i=0;i<8;i++){
@@ -718,8 +721,8 @@ void makeTex(TH2D* th2,string outputName=""){
 	myfile.open (Form("table/%s.txt",outputName.data()));
 	
 	int massA[6]={300,400,500,600,700,800};
-	
-	for (int i=0; i<6;i++){
+	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	/*for (int i=0; i<6;i++){
 		myfile<<massA[i]<<" & "
 		<< th2->GetBinContent(1,i+1) <<" & "
 		<< th2->GetBinContent(2,i+1) <<" & "
@@ -729,6 +732,16 @@ void makeTex(TH2D* th2,string outputName=""){
 		<< th2->GetBinContent(6,i+1) <<" & "
 		<< th2->GetBinContent(7,i+1) <<" & "
 		<< th2->GetBinContent(8,i+1) <<" \\\\ "<<endl;
+	}
+	*/
+	for (int i=0; i<8;i++){
+		myfile<<massZ[i]<<" & "
+		<< th2->GetBinContent(i+1,1) <<" & "
+		<< th2->GetBinContent(i+1,2) <<" & "
+		<< th2->GetBinContent(i+1,3) <<" & "
+		<< th2->GetBinContent(i+1,4) <<" & "
+		<< th2->GetBinContent(i+1,5) <<" & "
+		<< th2->GetBinContent(i+1,6) <<" \\\\ "<<endl;
 	}
 	
 }

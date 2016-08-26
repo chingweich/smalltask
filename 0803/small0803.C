@@ -35,7 +35,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	TCanvas* c1,*c2;
 	TStyle* ts =setNCUStyle();
 	ts->SetPadRightMargin(0.12);
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	int inputZ[8]={1,2,3,4,5,7,8,11};
@@ -136,7 +136,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	th2[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.5f ");
+   gStyle->SetPaintTextFormat(" 4.3f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -148,8 +148,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
-	
+    latex->DrawLatex(0.15, 0.92, Form("CMS                               %.1f fb^{-1} ( 13 TeV )", 2.32));
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
 	
@@ -165,7 +164,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	//int inputZ[8]={2,4,6,8,10,13,16,21};
@@ -320,8 +319,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
-	//latex->DrawLatex(0.18, 0.885, );
+    latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -336,7 +334,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	double db1[8]={0};
 	double db2[8]={0};
 	double db3[7]={0};
@@ -501,7 +499,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 TH2D* readTxt(string inputDir,string outputName,int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	int inputZ[8]={2,4,6,8,10,13,16,21};
 	int massA[6]={300,400,500,600,700,800};
@@ -540,7 +538,7 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	TH2D* th3;
 	th3=new TH2D("eff","eff",8,0,8,6,0,6);
 	for(int i=0;i<8;i++){
@@ -633,7 +631,7 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	TCanvas* c1;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",1150,768);
+	c1 = new TCanvas("c1","",889,768);
 	/*
 	double yy1[8],yy2[8];
 	for(int i=0;i<8;i++){
@@ -676,8 +674,7 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                                       %.1f fb^{-1} ( 13 TeV )", 2.32));
-	//latex->DrawLatex(0.18, 0.885, );
+    latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));//latex->DrawLatex(0.18, 0.885, );
 	
 	
 	tg2->SetFillColor(0);
