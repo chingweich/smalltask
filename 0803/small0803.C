@@ -604,7 +604,8 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	tg1->SetMaximum(800);
 	tg1->SetMinimum(300);
 	tg1->GetXaxis()->SetTitle("m_{Z'}[GeV]");
-	tg1->GetXaxis()->SetRangeUser(600,1400);
+	tg1->GetXaxis()->SetNdivisions(508);
+	tg1->GetXaxis()->SetRangeUser(600,2500);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
 	TLegend* leg ;
@@ -691,6 +692,7 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	tg1->SetMaximum(800);
 	tg1->SetMinimum(300);
 	tg1->GetXaxis()->SetTitle("m_{Z'}[GeV]");
+	tg1->GetXaxis()->SetNdivisions(508);
 	tg1->GetXaxis()->SetRangeUser(600,2500);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
