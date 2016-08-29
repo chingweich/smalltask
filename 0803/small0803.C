@@ -34,7 +34,7 @@
 TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
 	TStyle* ts =setNCUStyle();
-	ts->SetPadRightMargin(0.12);
+	ts->SetPadRightMargin(0.14);
 	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
