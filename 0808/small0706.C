@@ -231,23 +231,26 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 						limit[1]= data2.GetDouble("limit");
 						//if(option==1)limit[1]*=8.3;
 						if(i==3 &&j==1){
-							cout<<limit[0]<<","<<limit[1]<<","<<quantileExpected<<endl;
+							//cout<<limit[0]<<","<<limit[1]<<","<<quantileExpected<<endl;
 							}
 						
 						if(quantileExpected==0.5){
 							
 							
-							th2[0]->Fill(i,j,limit[0]<limit[1]?limit[0]:limit[1]);
+							th2[0]->Fill(i,j,isData1);
 							
 							
-							th2[2]->Fill(i,j,(limit[0]<limit[1]?limit[0]:limit[1])/th2f2->GetBinContent(inputZ[i],j+2));
+							if(isData1)th2[2]->Fill(i,j,limit[0]/th2f2->GetBinContent(inputZ[i],j+2));
+							else th2[2]->Fill(i,j,limit[1]/th2f2->GetBinContent(inputZ[i],j+2));
 							//if (isData1)th2[4]->Fill(i,j,1);
 							//else th2[4]->Fill(i,j,2);
 							
-							cout<<i<<","<<j<<","<<(limit[0]<limit[1]?1:2)<<","<<limit[0]<<","<<limit[1]<<endl;
+							
 						}
 						if(quantileExpected==-1){
-							isData1=limit[0]<limit[1]?1:0;
+							if(i==3 && j==1)cout<<i<<","<<j<<","<<(limit[0]<limit[1]?1:2)<<","<<limit[0]<<","<<limit[1]<<endl;
+							
+							isData1=(limit[0]<limit[1]||limit[0]==limit[1])?1:0;
 							th2[4]->Fill(i,j,(limit[0]<limit[1]||limit[0]==limit[1])?1:2);
 							if(isData1)th2[1]->Fill(i,j,limit[0]);
 							else th2[1]->Fill(i,j,limit[1]);
@@ -808,6 +811,7 @@ void small0706(){
 	smallDrawTGragh("eff1D",thh,1);
 	
 	makeTex(th4,"effTable");
+	
 }
 
 
