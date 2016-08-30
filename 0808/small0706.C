@@ -598,7 +598,7 @@ TGraph* excludeLimit(TH2D* th2){
 		return tg1;
 }
 
-void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
+void drawExcludeLimit(TGraph* tg1,TGraph* tg2,int rangeUp=2500){
 	TCanvas* c1;
 	setNCUStyle(1);
 	c1 = new TCanvas("c1","",889,768);
@@ -617,7 +617,7 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	tg1->SetMinimum(300);
 	tg1->GetXaxis()->SetTitle("m_{Z'}[GeV]");
 	tg1->GetXaxis()->SetNdivisions(508);
-	tg1->GetXaxis()->SetRangeUser(600,2500);
+	tg1->GetXaxis()->SetRangeUser(600,rangeUp);
 	tg1->GetYaxis()->SetTitle("m_{A0}[GeV]");
 	
 	TLegend* leg ;
@@ -639,8 +639,8 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2){
 	
 	
 	
-	c1->Print("plot/exclude.pdf");
-	c1->SaveAs("plot/exclude.png");
+	c1->Print(Form("plot/exclude_%d.pdf",rangeUp));
+	c1->SaveAs(Form("plot/exclude_%d.png",rangeUp));
 }
 
 void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
@@ -782,6 +782,7 @@ void small0706(){
 	tg2=excludeLimit(th3);
 	
 	drawExcludeLimit(tg1,tg2);
+	drawExcludeLimit(tg1,tg2,1400);
 	
 	TH2D* vct[3];
 	vct[0]=th2;
