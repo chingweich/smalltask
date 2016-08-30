@@ -287,7 +287,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	
 	c1->Clear();
 	
-	TPad *p1 = new TPad("p1","",0,0.09,1,0.89);
+	TPad *p1 = new TPad("p1","",0,0,1,0.97);
    p1->Draw();
    p1->cd();
    th2[4]->Draw("colz");
@@ -297,7 +297,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
    gPad->GetRange(x1,y1,x2,y2);
 
    c1->cd();
-   TPad *p2 = new TPad("p2","",0,0.12,1,0.92);
+   TPad *p2 = new TPad("p2","",0,0.03,1,1);
    p2->SetFillStyle(0);
    p2->SetFillColor(0);
    p2->Draw();
@@ -311,7 +311,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	th2[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.4f ");
+   gStyle->SetPaintTextFormat(" 4.3f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -323,7 +323,8 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-  latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
+    latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
+
 		//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
@@ -339,7 +340,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",889,768);
+	c1 = new TCanvas("c1","",809,808);
 	double db1[8]={0};
 	double db2[8]={0};
 	double db3[7]={0};
@@ -398,7 +399,8 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	tg2[4]=new TGraph(5,massZ4,db25);
 	tg2[5]=new TGraph(6,massZ3,db26);
 	
-	
+	tg1[0]->Draw("APL");
+	c1->Print("dump.pdf");
 	
 	for(int i=0;i<6;i++){
 		//tg1[i]=new TGraph(8,massZ,db[i]);
@@ -483,9 +485,9 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
     latex->SetNDC(kTRUE);                 
 	latex->SetTextSize(0.06);    
 	latex->SetTextFont(42);
-    if(option==2) latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
+    if(option==2)  latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
-	else latex->DrawLatex(0.15, 0.92, Form("CMS                       %.1f fb^{-1} ( 13 TeV )", 2.32));
+	else  latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
 	
 	//
