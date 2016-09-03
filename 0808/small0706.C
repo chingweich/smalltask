@@ -30,6 +30,120 @@
 #include"TGraphAsymmErrors.h"
 #include "TLatex.h"
 
+TH2D* getSigmaLimit(string inputDir[],int option=0){
+	TCanvas* c1,*c2;
+	setNCUStyle();
+	c1 = new TCanvas("c1","",889,768);
+	
+	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	//int inputZ[8]={2,4,6,8,10,13,16,21};
+	int inputZ[8]={1,2,3,4,5,7,8,11};
+	int massA[6]={300,400,500,600,700,800};
+	
+	TH2D* th2[5];
+	th2[0]=new TH2D("expected","expected",8,0,8,6,0,6);
+	th2[1]=new TH2D("observed","observed",8,0,8,6,0,6);
+	
+	th2[2]=new TH2D("expected","expected",8,0,8,6,0,6);
+	th2[3]=new TH2D("observed","observed",8,0,8,6,0,6);
+	
+	th2[4]=new TH2D("saveInf","",8,0,8,6,0,6);
+	
+	TFile* tf1;
+	
+	tf1=TFile::Open("ScanPlot_gz08.root");
+	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
+	
+	
+	for(int i=0;i<5;i++){
+		th2[i]->SetXTitle("m_{Z'}[GeV]");
+		th2[i]->SetYTitle("m_{A0}[GeV]");
+		th2[i]->SetMarkerSize(2);
+	}
+	
+	for(int i=0;i<8;i++){
+		for(int j=0;j<6;j++){
+				
+				TFile* tf1,* tf2;
+				TTree* tree,*tree2;
+				tf1=TFile::Open(Form("%s/higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",inputDir[0].data(),massZ[i],massA[j]));
+				tf2=TFile::Open(Form("%s/higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",inputDir[1].data(),massZ[i],massA[j]));
+				//if(!tf2 || !tf2->IsOpen())continue;
+				if(!tf1 || !tf1->IsOpen()){
+					
+				}
+				if (!tf2 || !tf2->IsOpen()){
+					tf2=TFile::Open(Form("%s/higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",inputDir[0].data(),massZ[i],massA[j]));
+				}
+				//if(!tf1)continue;
+				//TDirectory * dir;
+				//dir = (TDirectory*)tf1->Get(Form("higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",massZ[i],massA[j]));
+				
+				tf1->GetObject("limit",tree);
+				tf2->GetObject("limit",tree2);
+				TreeReader data(tree);
+				TreeReader data2(tree2);
+				//data.Print();
+				bool isData1=0;
+				Double_t  limit[2]={0,0};
+				int jEntryMax=data.GetEntriesFast();
+				if(data.GetEntriesFast()==0){
+					limit[0]=1000;
+					jEntryMax=data2.GetEntriesFast();
+				}
+				if(data2.GetEntriesFast()==0){
+					limit[1]=1000;
+					//jEntryMax=data2.GetEntriesFast();
+				}
+				if(i==3 &&j==1)cout<<"jMax="<<jEntryMax<<endl;
+				//for(Long64_t jEntry=0; jEntry< jEntryMax;jEntry++){
+				for(Long64_t jEntry=jEntryMax; jEntry>-1;jEntry--){
+					data.GetEntry(jEntry);
+						data2.GetEntry(jEntry);
+						Float_t  quantileExpected = data.GetFloat("quantileExpected");
+						
+						
+						if(data.GetEntriesFast()==0) quantileExpected = data2.GetFloat("quantileExpected");
+						if(data.GetEntriesFast()!=0)limit[0]= data.GetDouble("limit");
+						limit[1]= data2.GetDouble("limit");
+						//if(option==1)limit[1]*=8.3;
+						if(i==3 &&j==1){
+							//cout<<limit[0]<<","<<limit[1]<<","<<quantileExpected<<endl;
+							}
+						
+						if(jEntry==option){
+							
+							
+							th2[0]->Fill(i,j,isData1);
+							
+							
+							if(isData1)th2[2]->Fill(i,j,limit[0]/th2f2->GetBinContent(inputZ[i],j+2));
+							else th2[2]->Fill(i,j,limit[1]/th2f2->GetBinContent(inputZ[i],j+2));
+							//if (isData1)th2[4]->Fill(i,j,1);
+							//else th2[4]->Fill(i,j,2);
+							
+							
+						}
+						if(quantileExpected==-1){
+							if(i==3 && j==1)cout<<i<<","<<j<<","<<(limit[0]<limit[1]?1:2)<<","<<limit[0]<<","<<limit[1]<<endl;
+							
+							isData1=(limit[0]<limit[1]||limit[0]==limit[1])?1:0;
+							th2[4]->Fill(i,j,(limit[0]<limit[1]||limit[0]==limit[1])?1:2);
+							if(isData1)th2[1]->Fill(i,j,limit[0]);
+							else th2[1]->Fill(i,j,limit[1]);
+							
+							if(isData1)th2[3]->Fill(i,j,limit[0]/th2f2->GetBinContent(inputZ[i],j+2));
+							else th2[3]->Fill(i,j,limit[1]/th2f2->GetBinContent(inputZ[i],j+2));
+						}
+						
+				}
+				
+		}
+	}
+	
+	
+	 return th2[2];
+}
 
 void small0706Base(string inputDir,string outputName,int option=0){
 	TCanvas* c1,*c2;
@@ -754,6 +868,91 @@ void makeTex(TH2D* th2,string outputName=""){
 	
 }
 
+void drawExcludeLimitSigma(TGraph* tg1[],TGraph* tg2,int rangeUp=2500){
+	TCanvas* c1;
+	setNCUStyle(1);
+	c1 = new TCanvas("c1","",889,768);
+	
+	tg2->SetFillColor(0);
+	
+	
+	tg2->SetLineColor(2);
+	//tg1->Draw("APL");
+	//c1->Print("exclude.pdf");
+	tg1[2]->SetLineWidth(3);
+	tg2->SetLineWidth(3);
+	tg1[0]->SetTitle("");
+	//tg1[0]->Draw("APL");
+	
+	//tg1[1]->Draw("PL,same");
+	//tg1[2]->Draw("PL,same");
+	//tg1[3]->Draw("PL,same");
+	//tg1[4]->Draw("PL,same");
+	
+	double limitSigma[5][8];
+	for(int i=0;i<5;i++){
+		double* temp=tg1[i]->GetY(); 
+		for(int j=0;j<8;j++){
+			limitSigma[i][j]=temp[j];
+			cout<<temp[j]<<",";
+		}
+		cout<<endl;
+	}
+	for(int i=0;i<8;i++){
+		limitSigma[0][i]-=limitSigma[2][i];
+		limitSigma[1][i]-=limitSigma[2][i];
+		limitSigma[3][i]=limitSigma[2][i]-limitSigma[3][i];
+		limitSigma[4][i]=limitSigma[2][i]-limitSigma[4][i];
+		
+	}
+	
+	double massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	TGraphAsymmErrors* limit_68=new TGraphAsymmErrors(8,massZ,limitSigma[2],0,0,limitSigma[4],limitSigma[0]);
+	TGraphAsymmErrors* limit_95=new TGraphAsymmErrors(8,massZ,limitSigma[2],0,0,limitSigma[3],limitSigma[1]);
+	
+	limit_68->SetMaximum(800);
+	limit_68->SetMinimum(300);
+	limit_68->GetXaxis()->SetTitle("m_{Z'}[GeV]");
+	limit_68->GetXaxis()->SetNdivisions(508);
+	limit_68->GetXaxis()->SetRangeUser(600,rangeUp+10);
+	limit_68->GetYaxis()->SetTitle("m_{A0}[GeV]");
+	
+	limit_68->SetFillColor(kYellow);
+	limit_68->Draw("3A");
+	
+	limit_95->SetFillColor(kGreen);
+	limit_95->Draw("3 same");
+	
+	tg1[2]->SetFillColor(0);
+	tg1[2]->Draw("PLsame");
+	
+	tg2->Draw("PL,same");
+	
+	
+	TLegend* leg ;
+	leg=new TLegend(0.711452,0.652447,0.940645,0.863966);
+	leg->SetFillColor(0);
+	leg->SetFillStyle(0);
+	leg->AddEntry(tg1[2],"expected");
+	leg->AddEntry(limit_95,"1 #sigma");
+	leg->AddEntry(limit_68,"2 #sigma");
+	
+	leg->AddEntry(tg2,"observed");
+	leg->Draw("same");
+	
+	TLatex * latex = new TLatex();
+    latex->SetNDC();
+    //latex->SetTextSize(0.03);
+    latex->SetTextAlign(10); // align left
+    latex->SetNDC(kTRUE);                                                                                                                        
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));
+	
+	c1->Print(Form("plot/exclude_%d.pdf",rangeUp));
+	c1->SaveAs(Form("plot/exclude_%d.png",rangeUp));
+}
+
 void small0706(){
 	small0706Base("boost","limit_boosted");
 	small0706Base("ResolvedRootfiles","limit_resolved",1);
@@ -814,6 +1013,24 @@ void small0706(){
 	smallDrawTGragh("eff1D",thh,1);
 	
 	makeTex(th4,"effTable");
+	
+	TH2D* th_sigma[5];
+	th_sigma[0]=getSigmaLimit(in,0);
+	th_sigma[1]=getSigmaLimit(in,1);
+	th_sigma[2]=getSigmaLimit(in,2);
+	th_sigma[3]=getSigmaLimit(in,3);
+	th_sigma[4]=getSigmaLimit(in,4);
+	
+	TGraph* tg_sigma[5];
+	tg_sigma[0]=excludeLimit(th_sigma[0]);
+	tg_sigma[1]=excludeLimit(th_sigma[1]);
+	tg_sigma[2]=excludeLimit(th_sigma[2]);
+	tg_sigma[3]=excludeLimit(th_sigma[3]);
+	tg_sigma[4]=excludeLimit(th_sigma[4]);
+	
+	
+	drawExcludeLimitSigma(tg_sigma,tg2,1400);
+	drawExcludeLimitSigma(tg_sigma,tg2);
 	
 }
 

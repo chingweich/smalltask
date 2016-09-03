@@ -310,7 +310,7 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   //gr95_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb] "); // #rightarrow 2l2q
   gr95_cls->GetXaxis()->SetRangeUser(fr_left, fr_right);
 
-  gr95_cls->Draw("3");
+  //gr95_cls->Draw("3");
   //gr95_cls->SetMinimum(0.1);
   //xgr95_cls->SetMaximum(1000.0);
   
@@ -321,7 +321,7 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   gr68_cls->SetFillStyle(1001);//solid
   gr68_cls->SetLineStyle(kDashed);
   gr68_cls->SetLineWidth(3);
-  gr68_cls->Draw("3same");
+  //gr68_cls->Draw("3same");
   grmedian_cls->GetXaxis()->SetTitle("M_{Z'} [GeV]");
   grmedian_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
   grmedian_cls->SetMarkerStyle(24);//25=hollow squre
@@ -447,18 +447,27 @@ for(int i=0;i<8;i++){
   TGraphAsymmErrors* limit_68C=new TGraphAsymmErrors(8,massZZ,limit_com[2],0,0,limit_com[0],limit_com[4]);
 	TGraphAsymmErrors* limit_95C=new TGraphAsymmErrors(8,massZZ,limit_com[2],0,0,limit_com[1],limit_com[3]);
 	TGraph* tg1_C=new TGraph(8,massZZ,limit_com[2]);
+	TGraph* tg1_CO=new TGraph(8,massZZ,limit_com[5]);
   
   limit_68C->SetFillColor(kYellow);
-	//limit_68C->Draw("3same");
+	limit_68C->Draw("3same");
 	
 	limit_95C->SetFillColor(kGreen);
-	//limit_95C->Draw("3 same");
+	limit_95C->Draw("3 same");
   
   tg1_C->SetMarkerColor(kBlack);
   tg1_C->SetLineStyle(2);
   tg1_C->SetLineWidth(3);
   
-  //tg1_C->Draw("PL same");
+  tg1_C->Draw("PL same");
+  
+   tg1_CO->SetMarkerColor(kBlack);
+  tg1_CO->SetMarkerStyle(21);//24=hollow circle
+  tg1_CO->SetMarkerSize(1.0);
+  tg1_CO->SetLineStyle(1);
+  tg1_CO->SetLineWidth(3);
+  tg1_CO->Draw("PL same");
+ 
   
   // open 
   // draw
