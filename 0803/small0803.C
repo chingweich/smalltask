@@ -29,6 +29,7 @@
 #include "TF1.h"
 #include"TGraphAsymmErrors.h"
 #include "TLatex.h"
+#include"TMultiGraph.h"
 
 
 TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp=0){
@@ -159,6 +160,72 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	else if (retrunexp==3)return th2[3];
 	//else if (retrunexp==4)return th2[4];
 	else return th2[0];
+}
+
+TH2D* getSigmaLimit(string inputDir,int option=0){
+	TCanvas* c1,*c2;
+	TStyle* ts =setNCUStyle();
+	ts->SetPadRightMargin(0.14);
+	c1 = new TCanvas("c1","",889,768);
+	
+	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	int inputZ[8]={1,2,3,4,5,7,8,11};
+	int massA[6]={300,400,500,600,700,800};
+	
+	TH2D* th2[4];
+	th2[0]=new TH2D("expected","expected",8,0,8,6,0,6);
+	th2[1]=new TH2D("observed","observed",8,0,8,6,0,6);
+	
+	th2[2]=new TH2D("expected","expected",8,0,8,6,0,6);
+	th2[3]=new TH2D("observed","observed",8,0,8,6,0,6);
+	
+	TFile* tf1;
+	
+	tf1=TFile::Open("../ScanPlot_gz08.root");
+	TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
+	
+	
+	for(int i=0;i<4;i++){
+		th2[i]->SetXTitle("m_{Z'}[GeV]");
+		th2[i]->SetYTitle("m_{A0}[GeV]");
+		th2[i]->SetMarkerSize(2);
+	}
+	
+	for(int i=0;i<8;i++){
+		for(int j=0;j<6;j++){
+				
+				TFile* tf1;
+				TTree* tree;
+				tf1=TFile::Open(Form("%s/higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",inputDir.data(),massZ[i],massA[j]));
+				if(!tf1)continue;
+				//TDirectory * dir;
+				//dir = (TDirectory*)tf1->Get(Form("higgsCombineTest_Asymptotic_%d_%dGeV_MonoHbb_13TeV.root",massZ[i],massA[j]));
+				
+				tf1->GetObject("limit",tree);
+				TreeReader data(tree);
+				//data.Print();
+				data.GetEntry(option);
+				Double_t  limit = data.GetDouble("limit");
+				th2[0]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+				/*
+				for(Long64_t jEntry=0; jEntry<data.GetEntriesFast() ;jEntry++){
+						data.GetEntry(jEntry);
+						Float_t  quantileExpected = data.GetFloat("quantileExpected");
+						Double_t  limit = data.GetDouble("limit");
+						//if(option==1)limit*=8.3;
+						if(quantileExpected==0.5)th2[0]->Fill(i,j,limit);
+						if(quantileExpected==-1)th2[1]->Fill(i,j,limit);
+						
+						if(quantileExpected==0.5)th2[2]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+						if(quantileExpected==-1)th2[3]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+				}
+				*/
+		}
+	}
+	th2[0]->Draw("text");
+	c1->Print(Form("%d.pdf",option));
+	
+	 return th2[0];
 }
 
 TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retrunexp=0){
@@ -559,9 +626,10 @@ TH2D* TH2DComparer(TH2D* th1,TH2D* th2){
 	return th3;
 }
 
-TGraph* excludeLimit(TH2D* th2){
+TGraph* excludeLimit(TH2D* th2,int option=0){
 		double massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 		double y[8]={0};
+		double yy[8]={0};
 		
 		for(int i=0;i<8;i++){
 			for(int j=0;j<6;j++){
@@ -572,16 +640,23 @@ TGraph* excludeLimit(TH2D* th2){
 					if(j==0)y[i]=0;
 					else {
 						double x=(1-th2->GetBinContent(i+1,j))/(th2->GetBinContent(i+1,j+1)-th2->GetBinContent(i+1,j));
+						yy[i]=x+j-1;
+						cout<<yy[i]<<",";
 						y[i]=300+(j+x-1)*100;
 					}
 					break;
 				}
 			}	
+			cout<<endl;
 		}
 		
 		for(int i=0;i<8;i++)cout<<"y["<<i<<"]="<<y[i]<<endl;
 		TGraph* tg1=new TGraph(8,massZ,y);
-		return tg1;
+		
+		double massZZ[8]={0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5};
+		TGraph* tg2=new TGraph(8,massZZ,yy);
+		if(option==1)return tg2;
+		else return tg1;
 }
 
 void drawExcludeLimit(TGraph* tg1,TGraph* tg2,int rangeUp=2500){
@@ -627,9 +702,95 @@ void drawExcludeLimit(TGraph* tg1,TGraph* tg2,int rangeUp=2500){
 	c1->SaveAs(Form("plot/exclude_%d.png",rangeUp));
 }
 
+void drawExcludeLimitSigma(TGraph* tg1[],TGraph* tg2,int rangeUp=2500){
+	TCanvas* c1;
+	setNCUStyle(1);
+	c1 = new TCanvas("c1","",889,768);
+	
+	tg2->SetFillColor(0);
+	
+	
+	tg2->SetLineColor(2);
+	//tg1->Draw("APL");
+	//c1->Print("exclude.pdf");
+	tg1[2]->SetLineWidth(3);
+	tg2->SetLineWidth(3);
+	tg1[0]->SetTitle("");
+	//tg1[0]->Draw("APL");
+	
+	//tg1[1]->Draw("PL,same");
+	//tg1[2]->Draw("PL,same");
+	//tg1[3]->Draw("PL,same");
+	//tg1[4]->Draw("PL,same");
+	
+	double limitSigma[5][8];
+	for(int i=0;i<5;i++){
+		double* temp=tg1[i]->GetY(); 
+		for(int j=0;j<8;j++){
+			limitSigma[i][j]=temp[j];
+			cout<<temp[j]<<",";
+		}
+		cout<<endl;
+	}
+	for(int i=0;i<8;i++){
+		limitSigma[0][i]-=limitSigma[2][i];
+		limitSigma[1][i]-=limitSigma[2][i];
+		limitSigma[3][i]=limitSigma[2][i]-limitSigma[3][i];
+		limitSigma[4][i]=limitSigma[2][i]-limitSigma[4][i];
+		
+	}
+	
+	double massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	TGraphAsymmErrors* limit_68=new TGraphAsymmErrors(8,massZ,limitSigma[2],0,0,limitSigma[4],limitSigma[0]);
+	TGraphAsymmErrors* limit_95=new TGraphAsymmErrors(8,massZ,limitSigma[2],0,0,limitSigma[3],limitSigma[1]);
+	
+	limit_68->SetMaximum(800);
+	limit_68->SetMinimum(300);
+	limit_68->GetXaxis()->SetTitle("m_{Z'}[GeV]");
+	limit_68->GetXaxis()->SetNdivisions(508);
+	limit_68->GetXaxis()->SetRangeUser(600,rangeUp+10);
+	limit_68->GetYaxis()->SetTitle("m_{A0}[GeV]");
+	
+	limit_68->SetFillColor(kYellow);
+	limit_68->Draw("3A");
+	
+	limit_95->SetFillColor(kGreen);
+	limit_95->Draw("3 same");
+	
+	tg1[2]->SetFillColor(0);
+	tg1[2]->Draw("PLsame");
+	
+	tg2->Draw("PL,same");
+	
+	
+	TLegend* leg ;
+	leg=new TLegend(0.711452,0.652447,0.940645,0.863966);
+	leg->SetFillColor(0);
+	leg->SetFillStyle(0);
+	leg->AddEntry(tg1[2],"expected");
+	leg->AddEntry(limit_95,"1 #sigma");
+	leg->AddEntry(limit_68,"2 #sigma");
+	
+	leg->AddEntry(tg2,"observed");
+	leg->Draw("same");
+	
+	TLatex * latex = new TLatex();
+    latex->SetNDC();
+    //latex->SetTextSize(0.03);
+    latex->SetTextAlign(10); // align left
+    latex->SetNDC(kTRUE);                                                                                                                        
+	latex->SetTextSize(0.06);    
+	latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));
+	
+	c1->Print(Form("plot/exclude_%d.pdf",rangeUp));
+	c1->SaveAs(Form("plot/exclude_%d.png",rangeUp));
+}
+
 void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	TCanvas* c1;
-	setNCUStyle();
+	TStyle* ts =setNCUStyle();
+	ts->SetPadRightMargin(0.14);
 	c1 = new TCanvas("c1","",889,768);
 	/*
 	double yy1[8],yy2[8];
@@ -643,12 +804,13 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
    p1->Draw();
    p1->cd();
    
-    
-   
-	tg1->Draw("APL");
+    th2[1]->Draw("colz text");
+
+  tg1->Draw("pl same");
 	tg2->Draw("PL,same");
-	th2[2]->Draw("colz,same");
-   th2[1]->Draw("TEXT,same ");
+	
+	//th2[2]->Draw("colz,same");
+   //th2[1]->Draw("TEXT,same ");
    p1->Update();
    Double_t x1,y1,x2,y2;
    gPad->GetRange(x1,y1,x2,y2);
@@ -660,8 +822,7 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
    p2->Draw();
    p2->cd();
    
-  
-   gStyle->SetPaintTextFormat(" 4.4f ");
+   gStyle->SetPaintTextFormat(" .4g");
    
    p2->Range(x1,y1,x2,y2);
    th2[0]->Draw("TEXTSAME");
@@ -699,7 +860,7 @@ void drawExcludeLimitWith2D(TGraph* tg1,TGraph* tg2,TH2D* th2[]){
 	leg->AddEntry(tg1,"exp");
 	leg->AddEntry(tg2,"obs");
 	//leg->Draw("same");
-	//c1->Print("plot/exclude2D.pdf");
+	c1->Print("plot/exclude2D.pdf");
 	
 	
 	//c1->Print("plot/exclude.pdf");
@@ -727,6 +888,7 @@ void small0803(){
 	th2->Write();
 	th3->Write();
 	outFile->Close();
+
 	
 	
 	smallDrawTGragh("limit_compare1D",thh,2);
@@ -740,8 +902,29 @@ void small0803(){
 	drawExcludeLimit(tg1,tg2);
 	drawExcludeLimit(tg1,tg2,1400);
 	
+	//draw limit 2 sigma
+	TH2D* th_sigma[5];
+	th_sigma[0]=getSigmaLimit("CombinedMonoHDatacard",0);
+	th_sigma[1]=getSigmaLimit("CombinedMonoHDatacard",1);
+	th_sigma[2]=getSigmaLimit("CombinedMonoHDatacard",2);
+	th_sigma[3]=getSigmaLimit("CombinedMonoHDatacard",3);
+	th_sigma[4]=getSigmaLimit("CombinedMonoHDatacard",4);
+	
+	TGraph* tg_sigma[5];
+	tg_sigma[0]=excludeLimit(th_sigma[0]);
+	tg_sigma[1]=excludeLimit(th_sigma[1]);
+	tg_sigma[2]=excludeLimit(th_sigma[2]);
+	tg_sigma[3]=excludeLimit(th_sigma[3]);
+	tg_sigma[4]=excludeLimit(th_sigma[4]);
 	
 	
+	drawExcludeLimitSigma(tg_sigma,tg2,1400);
+	drawExcludeLimitSigma(tg_sigma,tg2);
+	
+	tg1=excludeLimit(th2,1);
+	tg2=excludeLimit(th3,1);
+	
+	drawExcludeLimitWith2D(tg1,tg2,thh);
 }
 
 

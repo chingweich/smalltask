@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include "TTree.h"
 #include "TH1D.h"
+#include "TH2F.h"
 #include "TFile.h"
 #include "TROOT.h"
 #include "TGraphAsymmErrors.h"
@@ -15,6 +16,7 @@
 #include "TLegend.h"
 #include "TStyle.h"
 #include "TPaveText.h"
+#include "../untuplizer.h"
 #define nXm 8
 
 const float intLumi = 2.3;
@@ -295,7 +297,7 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   //hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
 
   hr->SetMinimum(0.001);
-  hr->SetMaximum(1000);
+  hr->SetMaximum(100000);
   if(mode == "one") hr->SetMinimum(0.1);
 
 
@@ -348,6 +350,115 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   grthSM10->SetLineStyle(kDashed);
   grthSM10->SetFillColor(kRed);
   grthSM10->SetFillStyle(3344);
+  
+  
+ // TFile tf_com[8];
+  double limit_com[6][8];
+  int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+  int inputZ[8]={1,2,3,4,5,7,8,11};
+  TFile* tf1;
+	
+ tf1=TFile::Open("../ScanPlot_gz08.root");
+TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
+  
+  for(int i=0;i<8;i++){
+	  
+	  TFile* tf1;
+	TTree* tree;
+	tf1=TFile::Open(Form("../0803/CombinedMonoHDatacard/higgsCombineTest_Asymptotic_%d_300GeV_MonoHbb_13TeV.root",massZ[i]));
+				if(!tf1)continue;
+				
+				tf1->GetObject("limit",tree);
+				TreeReader data(tree);
+				//data.Print();
+				for(Long64_t jEntry=0; jEntry<data.GetEntriesFast() ;jEntry++){
+						data.GetEntry(jEntry);
+						//Float_t  quantileExpected = data.GetFloat("quantileExpected");
+						Double_t  limit = data.GetDouble("limit");
+						//th2[0]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+						limit_com[jEntry][i]=limit;//th2f2->GetBinContent(inputZ[i],2);
+				}
+  }
+  
+  double limit_gamma[6][8];
+  for(int i=0;i<8;i++){
+	  
+	  TFile* tf1;
+	TTree* tree;
+	tf1=TFile::Open(Form("gamma/higgsCombineTest.HybridNew.mH%d.root",massZ[i]));
+				if(!tf1)continue;
+				
+				tf1->GetObject("limit",tree);
+				TreeReader data(tree);
+				//data.Print();
+				for(Long64_t jEntry=0; jEntry<data.GetEntriesFast() ;jEntry++){
+						data.GetEntry(jEntry+1);
+						//Float_t  quantileExpected = data.GetFloat("quantileExpected");
+						Double_t  limit = data.GetDouble("limit");
+						//th2[0]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+						limit_gamma[jEntry][i]=limit;//th2f2->GetBinContent(inputZ[i],2);
+				}
+				data.GetEntry(0);
+				Double_t  limit = data.GetDouble("limit");
+				limit_gamma[5][i]=limit;
+  }
+  
+  for(int i=0;i<8;i++){
+		limit_com[3][i]-=limit_com[2][i];
+		limit_com[4][i]-=limit_com[2][i];
+		limit_com[0][i]=limit_com[2][i]-limit_com[0][i];
+		limit_com[1][i]=limit_com[2][i]-limit_com[1][i];
+		
+	}
+	
+for(int i=0;i<8;i++){
+		limit_gamma[3][i]-=limit_gamma[2][i];
+		limit_gamma[4][i]-=limit_gamma[2][i];
+		limit_gamma[0][i]=limit_gamma[2][i]-limit_gamma[0][i];
+		limit_gamma[1][i]=limit_gamma[2][i]-limit_gamma[1][i];
+	}
+
+	
+	double massZZ[8]={600,800,1000,1200,1400,1700,2000,2500};
+	TGraphAsymmErrors* limit_68=new TGraphAsymmErrors(8,massZZ,limit_gamma[2],0,0,limit_gamma[0],limit_gamma[4]);
+	TGraphAsymmErrors* limit_95=new TGraphAsymmErrors(8,massZZ,limit_gamma[2],0,0,limit_gamma[1],limit_gamma[3]);
+	TGraph* tg1_gamma=new TGraph(8,massZZ,limit_gamma[2]);
+	TGraph* tg1_gammaO=new TGraph(8,massZZ,limit_gamma[5]);
+  
+  limit_68->SetFillColor(kYellow);
+	limit_68->Draw("3same");
+	
+	limit_95->SetFillColor(kGreen);
+	limit_95->Draw("3 same");
+  
+  tg1_gamma->SetMarkerColor(kBlack);
+  tg1_gamma->SetLineStyle(2);
+  tg1_gamma->SetLineWidth(3);
+  
+    tg1_gammaO->SetMarkerColor(kBlack);
+  tg1_gammaO->SetMarkerStyle(21);//24=hollow circle
+  tg1_gammaO->SetMarkerSize(1.0);
+  tg1_gammaO->SetLineStyle(1);
+  tg1_gammaO->SetLineWidth(3);
+  tg1_gammaO->Draw("PL same");
+  tg1_gamma->Draw("PL same");
+  
+  
+  TGraphAsymmErrors* limit_68C=new TGraphAsymmErrors(8,massZZ,limit_com[2],0,0,limit_com[0],limit_com[4]);
+	TGraphAsymmErrors* limit_95C=new TGraphAsymmErrors(8,massZZ,limit_com[2],0,0,limit_com[1],limit_com[3]);
+	TGraph* tg1_C=new TGraph(8,massZZ,limit_com[2]);
+  
+  limit_68C->SetFillColor(kYellow);
+	//limit_68C->Draw("3same");
+	
+	limit_95C->SetFillColor(kGreen);
+	//limit_95C->Draw("3 same");
+  
+  tg1_C->SetMarkerColor(kBlack);
+  tg1_C->SetLineStyle(2);
+  tg1_C->SetLineWidth(3);
+  
+  //tg1_C->Draw("PL same");
   
   // open 
   // draw
