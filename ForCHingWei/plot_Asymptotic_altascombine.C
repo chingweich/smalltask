@@ -469,6 +469,42 @@ for(int i=0;i<8;i++){
   tg1_CO->Draw("PL same");
  
   
+  double limit_bb[6][8];
+  for(int i=0;i<8;i++){
+	  
+	  TFile* tf1;
+	TTree* tree;
+	if(i<3)tf1=TFile::Open(Form("../0808/ResolvedRootfiles/higgsCombineTest_Asymptotic_%d_300GeV_MonoHbb_13TeV.root",massZ[i]));
+	else tf1=TFile::Open(Form("../0808/boost/higgsCombineTest_Asymptotic_%d_300GeV_MonoHbb_13TeV.root",massZ[i]));
+	if(!tf1)continue;
+				
+				tf1->GetObject("limit",tree);
+				TreeReader data(tree);
+				//data.Print();
+				for(Long64_t jEntry=0; jEntry<data.GetEntriesFast() ;jEntry++){
+						data.GetEntry(jEntry);
+						//Float_t  quantileExpected = data.GetFloat("quantileExpected");
+						Double_t  limit = data.GetDouble("limit");
+						//th2[0]->Fill(i,j,limit/th2f2->GetBinContent(inputZ[i],j+2));
+						limit_bb[jEntry][i]=limit;//th2f2->GetBinContent(inputZ[i],2);
+				}
+  }
+  
+  TGraph* tg1_bbC=new TGraph(8,massZZ,limit_bb[2]);
+	TGraph* tg1_bbCO=new TGraph(8,massZZ,limit_bb[5]);
+	
+	tg1_bbC->SetMarkerColor(kBlack);
+  tg1_bbC->SetLineStyle(2);
+  tg1_bbC->SetLineWidth(3);
+  
+  //tg1_bbC->Draw("PL same");
+  
+   tg1_bbCO->SetMarkerColor(kBlack);
+  tg1_bbCO->SetMarkerStyle(21);//24=hollow circle
+  tg1_bbCO->SetMarkerSize(1.0);
+  tg1_bbCO->SetLineStyle(1);
+  tg1_bbCO->SetLineWidth(3);
+ // tg1_bbCO->Draw("PL same");
   // open 
   // draw
   
@@ -496,11 +532,11 @@ for(int i=0;i<8;i++){
   tgC->Draw("L3");
   std::cout<<" working upto this point 3"<<std::endl;
   //if(drawth)   grthSM->Draw("L3");
-  grmedian_cls->Draw("L");
+  //grmedian_cls->Draw("L");
   //if(mode=="comb") grthSM10->Draw("L3");
 
   // observed limit
-  grobslim_cls->Draw("LP");
+  //grobslim_cls->Draw("LP");
   
   
   
