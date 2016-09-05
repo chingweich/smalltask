@@ -656,7 +656,7 @@ TH2D* readTxt(string inputDir[2],string outputName,int option=0){
 	for(int i=0;i<10;i++)th2[0]->GetXaxis()->SetBinLabel(i+1,Form("%d",massZ[i]));
 	for(int i=0;i<6;i++)th2[0]->GetYaxis()->SetBinLabel(i+1,Form("%d",massA[i]));
 	th2[0]->SetXTitle("m_{Z'}[GeV]");
-		th2[0]->SetYTitle("m_{A0}[GeV]");
+		th2[0]->SetYTitle("m_{DM}[GeV]");
 	th2[0]->SetMarkerSize(2);
 	th2[0]->SetTitle(Form("%s",outputName.data()));
 	gStyle->SetPaintTextFormat(" .2g ");
