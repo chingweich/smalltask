@@ -497,14 +497,14 @@ for(int i=0;i<8;i++){
   tg1_bbC->SetLineStyle(2);
   tg1_bbC->SetLineWidth(3);
   
-  //tg1_bbC->Draw("PL same");
+  tg1_bbC->Draw("PL same");
   
    tg1_bbCO->SetMarkerColor(kBlack);
   tg1_bbCO->SetMarkerStyle(21);//24=hollow circle
   tg1_bbCO->SetMarkerSize(1.0);
   tg1_bbCO->SetLineStyle(1);
   tg1_bbCO->SetLineWidth(3);
- // tg1_bbCO->Draw("PL same");
+  tg1_bbCO->Draw("PL same");
   // open 
   // draw
   
