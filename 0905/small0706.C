@@ -629,7 +629,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 TH2D* readTxt(string inputDir[2],string outputName,int option=0){
 	TCanvas* c1,*c2;
 	setNCUStyle();
-	c1 = new TCanvas("c1","",889,768);
+	c1 = new TCanvas("c1","",889*1.5,768);
 	int massZ[10]={10,20,50,100,200,300,500,1000,2000,10000};
 	//int inputZ[8]={2,4,6,8,10,13,16,21};
 	int massA[6]={1,10,50,150,500,1000};
