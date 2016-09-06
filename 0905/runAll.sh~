@@ -1,0 +1,13 @@
+#!/bin/bash
+filename='root_file.txt'
+exec< $filename
+
+while read line
+do
+    #python MonoHBranchReader.py -i
+    
+    #echo "MonoH-"
+    echo "$line"
+    test=${line%%/crab*}
+    echo ${test##*MonoH-}
+done

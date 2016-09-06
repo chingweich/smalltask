@@ -638,12 +638,12 @@ TH2D* readTxt(string inputDir[2],string outputName,int option=0){
 	th2[0]=new TH2D("eff","eff",10,0,10,6,0,6);
 	for(int i=0;i<10;i++){
 		for(int j=0;j<6;j++){
-			fstream file1(Form("%s_MZp%d_MChi%d_hbb_%s.txt",inputDir[0].data(),massZ[i],massA[j],inputDir[1].data()));
+			fstream file1(Form("%s_MZp%d_MChi%d_hbb%s.txt",inputDir[0].data(),massZ[i],massA[j],inputDir[1].data()));
 			cout<<massA[j]*2-massZ[i]<<endl;
 			double db1=0;
 			file1>>db1;
 			if(massA[j]*2==massZ[i]){
-				fstream file2(Form("%s_MZp%d_MChi%d_hbb_%s.txt",inputDir[0].data(),massZ[i]-5,massA[j],inputDir[1].data()));
+				fstream file2(Form("%s_MZp%d_MChi%d_hbb%s.txt",inputDir[0].data(),massZ[i]-5,massA[j],inputDir[1].data()));
 				cout<<"Y"<<endl;
 				file2>>db1;
 			}
@@ -963,19 +963,27 @@ void small0706(){
 	
 	string st[2]={
 		"Scalar_Scalar",
-		"reslove"
+		"_reslove"
 	};
 		
 	readTxt(st,"scalar_resolve");
 	
-	st[1]="boost";
+	st[1]="_boost";
 	readTxt(st,"scalar_boost");
 	
 	st[0]="ZpBaryonic_ZpBaryonic";
 	readTxt(st,"ZpBaryonic_boost");
 	
-	st[1]="reslove";
+	st[1]="_reslove";
 	readTxt(st,"ZpBaryonic_resolve");
+	
+	st[0]="br/MonoH-Scalar_Scalar";
+	st[1]="";
+	
+	readTxt(st,"scalar_combine");
+	
+	st[0]="br/MonoH-ZpBaryonic_ZpBaryonic";
+	readTxt(st,"ZpBaryonic_combine");
 }
 
 
