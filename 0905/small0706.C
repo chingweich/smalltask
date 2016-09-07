@@ -977,6 +977,12 @@ void small0706(){
 	st[1]="_reslove";
 	readTxt(st,"ZpBaryonic_resolve");
 	
+	st[0]="ZpHS_ZpHS";
+	readTxt(st,"ZpHS_ZpHS_resolve");
+	
+	st[1]="_boost";
+	readTxt(st,"ZpHS_ZpHS_boost");
+	
 	st[0]="br/MonoH-Scalar_Scalar";
 	st[1]="";
 	
@@ -984,6 +990,10 @@ void small0706(){
 	
 	st[0]="br/MonoH-ZpBaryonic_ZpBaryonic";
 	readTxt(st,"ZpBaryonic_combine");
+	
+	st[0]="br/MonoH-ZpHS_ZpHS";
+	
+	readTxt(st,"ZpHS_combine");
 }
 
 
