@@ -74,7 +74,7 @@ void DMDrawerBase(string model){
 				
 				th1[j]->SetLineColor(j+1);
 				th1[j]->SetLineWidth(2);
-				
+				th1[j]->Scale(1/th1[j]->Integral());
 				if(th1[j]->GetMaximum()>temp)temp=th1[j]->GetMaximum();
 				
 			}
@@ -85,6 +85,8 @@ void DMDrawerBase(string model){
 				if(i==4 && j==4 && masspointMissing)continue;
 				if(i==4 && j==5  && masspointMissing)continue;
 				if(i==4 && j==6  && masspointMissing)continue;
+				
+				
 				
 				th1[j]->SetMaximum(temp*1.1);
 				if(h_name[k].find("deltaR")!= std::string::npos)th1[j]->SetMaximum(temp*1.5);
@@ -132,7 +134,7 @@ void DMDrawerBase(string model){
 				
 				th1[j]->SetLineColor(j+1);
 				th1[j]->SetLineWidth(2);
-				
+				th1[j]->Scale(1/th1[j]->Integral());
 				if(th1[j]->GetMaximum()>temp)temp=th1[j]->GetMaximum();
 				
 			}
@@ -142,7 +144,7 @@ void DMDrawerBase(string model){
 				if(i==6 && j==4  && masspointMissing)continue;
 				if(i==4 && j==4  && masspointMissing)continue;
 				if(i==5 && j==4  && masspointMissing)continue;
-				
+				//th1[j]->Scale(1/th1[j]->Integral());
 				th1[j]->SetMaximum(temp*1.1);
 				if(h_name[k].find("deltaR")!= std::string::npos)th1[j]->SetMaximum(temp*1.5);
 				if(j!=0)th1[j]->Draw("same");
@@ -205,7 +207,8 @@ void DMCompare(){
 				else th1[j]->SetTitle(Form("MSC%d_MDM%d",MSC[i],MDM[j]));
 				
 				th2[j]->SetLineColor(2);
-				
+				th1[j]->Scale(1/th1[j]->Integral());
+				th2[j]->Scale(1/th2[j]->Integral());
 				th1[j]->SetMaximum(th1[j]->GetMaximum()>th2[j]->GetMaximum()?th1[j]->GetMaximum()*1.1:th2[j]->GetMaximum()*1.1);
 				
 				th1[j]->Draw("");

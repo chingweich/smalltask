@@ -97,7 +97,7 @@ void DMCompare(){
 				leg->AddEntry(th2[j],"DMsimp_s_spin0_ph");
 				leg->Draw("same");
 				
-				if(i==0 &&j==0) c1->Print(Form("plots2/%s.pdf(",h_name[k].data()));
+				if(i==0 &&j==1) c1->Print(Form("plots2/%s.pdf(",h_name[k].data()));
 				else if(i==6 &&j==6) c1->Print(Form("plots2/%s.pdf)",h_name[k].data()));
 				else  c1->Print(Form("plots2/%s.pdf",h_name[k].data()));
 			}
