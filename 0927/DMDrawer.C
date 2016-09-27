@@ -218,8 +218,8 @@ void DMCompare(){
 		leg->SetFillStyle(0);
 		leg->SetTextSize(0.04);
 		
-				leg->AddEntry(th1[j],"Scalar");
-				leg->AddEntry(th2[j],"Spin0");
+				leg->AddEntry(th1[j],"Higgs_scalar");
+				leg->AddEntry(th2[j],"DMsimp_s_spin0");
 				leg->Draw("same");
 				
 				if(i==0 &&j==0) c1->Print(Form("plots/%s.pdf(",h_name[k].data()));

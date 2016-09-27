@@ -42,8 +42,8 @@ void dataPrinter(){
 		//f = TFile::Open(Form("/data7/khurana/NCUGlobalTuples/SPRING15/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_0830/150831_084507/0000/NCUGlobalTuples_%d.root",w));
 		//if (!f || !f->IsOpen())continue;
 		//TDirectory * dir = (TDirectory*)f->Get(Form("/data7/khurana/NCUGlobalTuples/SPRING15/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_0830/150831_084507/0000/NCUGlobalTuples_%d.root:/tree",w));
-		f=TFile::Open("/data7/monoH_genOnly/DMSimp_spin0/gentuple_DMSpin0_MSC100_MDM100.root");
-		TDirectory * dir = (TDirectory*)f->Get("/data7/monoH_genOnly/DMSimp_spin0/gentuple_DMSpin0_MSC100_MDM100.root:/tree");
+		f=TFile::Open("/data7/monoH_genOnly_Phil/DMSimp_spin0/MonoH_400_300_0.4_1.0_805.root");
+		//TDirectory * dir = (TDirectory*)f->Get("/data7/monoH_genOnly_Phil/DMSimp_spin0/MonoH_400_300_0.4_1.0_805.root:/tree");
 		//QCD  1500-2000
 		//for (int w=0;w<103;w++){
 		//f = TFile::Open(Form("/data7/khurana/NCUGlobalTuples/SPRING15/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_0830/150831_084638/0000/NCUGlobalTuples_%d.root",w));
@@ -57,10 +57,10 @@ void dataPrinter(){
 		//TDirectory * dir = (TDirectory*)f->Get(Form("/data7/khurana/NCUGlobalTuples/SPRING15/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_0830/150831_084730/0000/NCUGlobalTuples_%d.root:/tree",w));
 		
 		
+		tree=(TTree*)f->Get("Events");
 		
 		
-		
-		dir->GetObject("treeMaker",tree);
+		//dir->GetObject("treeMaker",tree);
 		
 		TreeReader data(tree);
 		data.Print();
