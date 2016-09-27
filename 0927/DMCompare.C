@@ -104,17 +104,26 @@ int DMCompareBase(string input,int option=0){
 
 void DMCompare(){
 	int MSC[7]={10,20,50,100,200,300,500};
-	int MDM[6]={1,10,20,100,150,200};
+	int MDM[7]={1,10,20,50,100,150,200};
 	
 	for(int i=0;i<7;i++){
-		for(int j=0;j<6;j++){
-			if(i==4 && j==3)continue;
+		for(int j=0;j<7;j++){
 			if(i==4 && j==4)continue;
 			if(i==4 && j==5)continue;
+			if(i==4 && j==6)continue;
 			cout<<Form("Scalar_MSC%d_MDM%d.root",MSC[i]-5,MDM[j])<<endl;
 			if(MSC[i]==MDM[j]*2)DMCompareBase(Form("Scalar_MSC%d_MDM%d.root",MSC[i]-5,MDM[j]),0);
 			else DMCompareBase(Form("Scalar_MSC%d_MDM%d.root",MSC[i],MDM[j]),0);
 			
+			//if(MSC[i]==MDM[j]*2)DMCompareBase(Form("DMSpin0_MSC%d_MDM%d.root",MSC[i]-5,MDM[j]),1);
+			//else DMCompareBase(Form("DMSpin0_MSC%d_MDM%d.root",MSC[i],MDM[j]),1);
+		}
+	}
+	
+	for(int i=0;i<7;i++){
+		for(int j=0;j<7;j++){
+			
+			cout<<Form("DMspin0_MSC%d_MDM%d.root",MSC[i]-5,MDM[j])<<endl;
 			if(MSC[i]==MDM[j]*2)DMCompareBase(Form("DMSpin0_MSC%d_MDM%d.root",MSC[i]-5,MDM[j]),1);
 			else DMCompareBase(Form("DMSpin0_MSC%d_MDM%d.root",MSC[i],MDM[j]),1);
 		}
