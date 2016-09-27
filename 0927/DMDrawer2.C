@@ -82,7 +82,7 @@ void DMCompare(){
 				th1[j]->SetMaximum(th1[j]->GetMaximum()>th2[j]->GetMaximum()?th1[j]->GetMaximum()*1.1:th2[j]->GetMaximum()*1.1);
 				
 				
-				
+				th1[j]->SetXTitle(Form("%s",h_name[k].data()));
 				th1[j]->Draw("");
 				th2[j]->Draw("same");
 				

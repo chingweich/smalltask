@@ -72,6 +72,7 @@ void DMDrawerBase(string model){
 				
 				th1[j]=(TH1D*)tf1[j]->Get(Form("%s",h_name[k].data()));
 				
+				th1[j]->SetXTitle(Form("%s",h_name[k].data()));
 				th1[j]->SetLineColor(j+1);
 				th1[j]->SetLineWidth(2);
 				th1[j]->Scale(1/th1[j]->Integral());
@@ -131,7 +132,7 @@ void DMDrawerBase(string model){
 				if(i==5 && j==4  && masspointMissing)continue;
 				
 				th1[j]=(TH1D*)tf1[j]->Get(Form("%s",h_name[k].data()));
-				
+				th1[j]->SetXTitle(Form("%s",h_name[k].data()));
 				th1[j]->SetLineColor(j+1);
 				th1[j]->SetLineWidth(2);
 				th1[j]->Scale(1/th1[j]->Integral());
@@ -199,7 +200,7 @@ void DMCompare(){
 				if(MSC[i]==MDM[j]*2)tf2[j]=TFile::Open(Form("output/%s_MSC%d_MDM%d.root",model.data(),MSC[i]-5,MDM[j]));
 				else tf2[j]=TFile::Open(Form("output/%s_MSC%d_MDM%d.root",model.data(),MSC[i],MDM[j]));
 				th2[j]=(TH1D*)tf2[j]->Get(Form("%s",h_name[k].data()));
-				
+				th1[j]->SetXTitle(Form("%s",h_name[k].data()));
 				th1[j]->SetLineWidth(2);
 				th2[j]->SetLineWidth(2);
 				
