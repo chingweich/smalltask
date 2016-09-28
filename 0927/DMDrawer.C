@@ -154,9 +154,9 @@ void DMDrawerBase(string model){
 			}
 			leg->Draw("same");
 			
-			if(k==0)c1->Print(Form("plots/%s/MDM%d.pdf(",model.data(),MSC[i]));
-			else if(k== h_name.size()-1)c1->Print(Form("plots/%s/MDM%d.pdf)",model.data(),MSC[i]));
-			else c1->Print(Form("plots/%s/MDM%d.pdf",model.data(),MSC[i]));
+			if(k==0)c1->Print(Form("plots/%s/MDM%d.pdf(",model.data(),MDM[i]));
+			else if(k== h_name.size()-1)c1->Print(Form("plots/%s/MDM%d.pdf)",model.data(),MDM[i]));
+			else c1->Print(Form("plots/%s/MDM%d.pdf",model.data(),MDM[i]));
 		}
 	}
 	
