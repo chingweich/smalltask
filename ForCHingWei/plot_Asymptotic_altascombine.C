@@ -17,6 +17,7 @@
 #include "TStyle.h"
 #include "TPaveText.h"
 #include "../untuplizer.h"
+#include "../0808/setNCUStyle.C"
 #define nXm 8
 
 const float intLumi = 2.3;
@@ -82,7 +83,16 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   TString outfilename = TString(outputdir.c_str())+"/SPlusBFit.root";
   TFile *fout = new TFile(outfilename,"RECREATE");
   bool useNewStyle = true;
-  if (useNewStyle)  setFPStyle();
+  //if (useNewStyle)  setFPStyle();
+TStyle* ts=setNCUStyle(0);
+ts->SetLabelSize(0.04, "XYZ");
+
+ts->SetPadGridX(false);
+  ts->SetPadGridY(false);
+  ts->SetGridColor(0);
+  ts->SetGridStyle(3);
+  ts->SetGridWidth(1);
+   ts->SetNdivisions(605, "XYZ");
 //  gROOT->LoadMacro("CMS_lumi.C");
  
   TFile *fFREQ[nXm];
@@ -281,7 +291,7 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   // double fr_left = 590.0, fr_down = 1E-5, fr_right = 2000.0, fr_up = 0.5; 
    double fr_left = 590.0, fr_down = 5E-5, fr_right = 2500.0, fr_up = 5;
 
-  TCanvas *cMCMC = new TCanvas("c_lim_Asymptotic", "canvas with limits for Asymptotic CLs", 630, 600);
+  TCanvas *cMCMC = new TCanvas("c_lim_Asymptotic", "canvas with limits for Asymptotic CLs", 600, 600);
   cMCMC->cd();
   cMCMC->SetGridx(1);
   cMCMC->SetGridy(1);
@@ -293,8 +303,8 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   //std::cout<<" working upto this point "<<std::endl;
   hr->SetXTitle("M_{Z'} [GeV]");
   hr->GetXaxis()->SetNdivisions(508);
-  hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)#timesBR(H#rightarrowb#bar{b})[pb]"); // #rightarrow 2l2q
-  //hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
+  //hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)#timesBR(H#rightarrowb#bar{b})[pb]"); // #rightarrow 2l2q
+  hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
 
   hr->SetMinimum(0.001);
   hr->SetMaximum(100000);
@@ -306,8 +316,8 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   gr95_cls->SetLineStyle(kDashed);
   gr95_cls->SetLineWidth(3);
   gr95_cls->GetXaxis()->SetTitle("M_{Z'} [GeV]");
-  gr95_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{@chi}H)#timesBR(H#rightarrowb#bar{b})[pb] "); // #rightarrow 2l2q
-  //gr95_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb] "); // #rightarrow 2l2q
+  //gr95_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{@chi}H)#timesBR(H#rightarrowb#bar{b})[pb] "); // #rightarrow 2l2q
+  gr95_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb] "); // #rightarrow 2l2q
   gr95_cls->GetXaxis()->SetRangeUser(fr_left, fr_right);
 
   //gr95_cls->Draw("3");
@@ -409,6 +419,8 @@ TH2F * th2f2=(TH2F *)tf1->FindObjectAny("xsec1");
 		limit_com[0][i]=limit_com[2][i]-limit_com[0][i];
 		limit_com[1][i]=limit_com[2][i]-limit_com[1][i];
 		
+		cout<<limit_gamma[0][i]<<","<<limit_gamma[1][i]<<","<<limit_gamma[3][i]<<","<<limit_gamma[4][i]<<","<<endl;
+		
 	}
 	
 for(int i=0;i<8;i++){
@@ -416,6 +428,8 @@ for(int i=0;i<8;i++){
 		limit_gamma[4][i]-=limit_gamma[2][i];
 		limit_gamma[0][i]=limit_gamma[2][i]-limit_gamma[0][i];
 		limit_gamma[1][i]=limit_gamma[2][i]-limit_gamma[1][i];
+		
+		cout<<limit_gamma[0][i]<<","<<limit_gamma[1][i]<<","<<limit_gamma[3][i]<<","<<limit_gamma[4][i]<<","<<endl;
 	}
 
 	
@@ -425,10 +439,10 @@ for(int i=0;i<8;i++){
 	TGraph* tg1_gamma=new TGraph(8,massZZ,limit_gamma[2]);
 	TGraph* tg1_gammaO=new TGraph(8,massZZ,limit_gamma[5]);
   
-  limit_68->SetFillColor(kYellow);
+  limit_68->SetFillColor(kYellow-7);
 	limit_68->Draw("3same");
 	
-	limit_95->SetFillColor(kGreen);
+	limit_95->SetFillColor(kGreen-7);
 	limit_95->Draw("3 same");
   
   tg1_gamma->SetMarkerColor(kBlack);
@@ -658,13 +672,19 @@ for(int i=0;i<8;i++){
     TLatex * latex = new TLatex();
     latex->SetNDC();
     latex->SetTextSize(0.032);
-    latex->SetTextAlign(12); // align left
+    latex->SetTextAlign(10); // align left
     latex->SetNDC(kTRUE);                                                                                                                         latex->SetTextFont(62);
-    latex->DrawLatex(0.18, 0.92, "CMS Preliminary");
-    latex->DrawLatex(0.18, 0.885, Form("#sqrt{s} = 13 TeV,L = %.1f fb^{-1}", intLumi));
+    latex->DrawLatex(0.18, 0.87, "CMS ");
+    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
         
-    latex->DrawLatex(0.18,0.85, "Z'#rightarrow DM+H(b#bar{b}) (2HDM)");
-    latex->DrawLatex(0.18,0.805, "M_{A0} = 300 GeV, M_{#chi} = 100 GeV");
+    latex->DrawLatex(0.18,0.835, "Z'#rightarrow DM+H(b#bar{b}) (2HDM)");
+    latex->DrawLatex(0.18,0.8, "M_{A0} = 300 GeV, M_{#chi} = 100 GeV");
+    
+    //latex->SetTextAlign(11);
+    latex->DrawLatex(0.18,0.5, " H#rightarrow#gamma#gamma");
+    
+    //latex->SetTextAlign(10);
+    latex->DrawLatex(0.18,0.4, " H#rightarrowbb");
     if(mode == "atlas")latex->DrawLatex(0.18,0.765, "g_{z} = 0.8, tan#beta = 1");
     if(mode == "cms") latex->DrawLatex(0.18,0.755, "g_{Z}<= 0.03#times#frac{g_{W}}{cos#theta_{W}#timessin^{2}#beta}#times #frac{#sqrt{M_{Z'}^{2}-M_{Z}^{2}}}{M_{Z}}");
     if(mode == "cms") latex->DrawLatex(0.18,0.69, "tan#beta = 1");

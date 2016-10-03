@@ -137,7 +137,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	th2[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.3f ");
+   gStyle->SetPaintTextFormat(" 4.2f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -147,9 +147,11 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
     //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextSize(0.06);    
-	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                               %.1f fb^{-1} ( 13 TeV )", 2.32));
+	latex->SetTextSize(0.04);    
+	//latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+     latex->DrawLatex(0.15, 0.84,"CMS");
+     
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
 	
@@ -374,7 +376,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	th2[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.4f ");
+   gStyle->SetPaintTextFormat(" 4.2f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -385,7 +387,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.06);    
-	latex->SetTextFont(42);
+	//latex->SetTextFont(42);
     latex->DrawLatex(0.15, 0.92, Form("CMS                         %.1f fb^{-1} ( 13 TeV )", 2.32));//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));

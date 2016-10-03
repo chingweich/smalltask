@@ -258,9 +258,10 @@ void small0706Base(string inputDir,string outputName,int option=0){
     //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextSize(0.06);    
-	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                                     %.1f fb^{-1} ( 13 TeV )", 2.32));
+	latex->SetTextSize(0.032);    
+	//latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("                                                 %.1f fb^{-1} ( 13 TeV )", 2.32));
+     latex->DrawLatex(0.15, 0.68,"CMS");
 	//latex->DrawLatex(0.18, 0.885, );
 	
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
@@ -269,7 +270,8 @@ void small0706Base(string inputDir,string outputName,int option=0){
 
 TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
-	setNCUStyle();
+	TStyle* ts =setNCUStyle();
+	ts->SetPadRightMargin(0.14);
 	c1 = new TCanvas("c1","",889,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
@@ -401,7 +403,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	
 	c1->Clear();
 	
-	TPad *p1 = new TPad("p1","",0,0,1,0.97);
+	TPad *p1 = new TPad("p1","",0,0.09,1,0.89);
    p1->Draw();
    p1->cd();
    th2[4]->Draw("colz");
@@ -411,7 +413,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
    gPad->GetRange(x1,y1,x2,y2);
 
    c1->cd();
-   TPad *p2 = new TPad("p2","",0,0.03,1,1);
+ TPad *p2 = new TPad("p2","",0,0.12,1,0.92);
    p2->SetFillStyle(0);
    p2->SetFillColor(0);
    p2->Draw();
@@ -425,7 +427,7 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	th2[1]->SetYTitle("");
 	//th2[3]->SetXTitle("");
 	//th2[3]->SetYTitle("");
-   gStyle->SetPaintTextFormat(" 4.3f ");
+   gStyle->SetPaintTextFormat(" 4.2f ");
    
    p2->Range(x1,y1,x2,y2);
    th2[2]->Draw("TEXTSAME");
@@ -435,9 +437,10 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     //latex->SetTextSize(0.05);
     latex->SetTextAlign(12); // align left
     latex->SetNDC(kTRUE);                                                                                                                        
-	latex->SetTextSize(0.06);    
-	latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
+	latex->SetTextSize(0.04);    
+	//latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+     latex->DrawLatex(0.15, 0.84,"CMS");
 
 		//latex->DrawLatex(0.18, 0.885, );
 	
@@ -451,10 +454,90 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
 	else return th2[0];
 }
 
+void setFPStyle()
+{
+	
+	TStyle* ts=new TStyle();
+  ts->SetPadBorderMode(0);
+  ts->SetFrameBorderMode(0);
+  ts->SetPadBottomMargin(0.12);
+  ts->SetPadLeftMargin(0.12);
+  ts->SetCanvasColor(kWhite);
+  ts->SetCanvasDefH(600); //Height of canvas
+  ts->SetCanvasDefW(600); //Width of canvas
+  ts->SetCanvasDefX(0);   //Position on screen
+  ts->SetCanvasDefY(0);
+
+  ts->SetPadTopMargin(0.05);
+  ts->SetPadBottomMargin(0.15);//0.13);
+  ts->SetPadLeftMargin(0.15);//0.16);
+  ts->SetPadRightMargin(0.05);//0.02);
+
+  // For the Pad:
+  ts->SetPadBorderMode(0);
+  // ts->SetPadBorderSize(Width_t size = 1);
+  ts->SetPadColor(kWhite);
+  ts->SetPadGridX(false);
+  ts->SetPadGridY(false);
+  ts->SetGridColor(0);
+  ts->SetGridStyle(3);
+  ts->SetGridWidth(1);
+
+  // For the Frame:
+  ts->SetFrameBorderMode(0);
+  ts->SetFrameBorderSize(1);
+  ts->SetFrameFillColor(0);
+  ts->SetFrameFillStyle(0);
+  ts->SetFrameLineColor(1);
+  ts->SetFrameLineStyle(1);
+  ts->SetFrameLineWidth(1);
+
+  ts->SetAxisColor(1, "XYZ");
+  ts->SetStripDecimals(kTRUE);
+  ts->SetTickLength(0.03, "XYZ");
+  ts->SetNdivisions(605, "XYZ");
+  ts->SetPadTickX(1);  // To get tick marks on the opposite side of the frame
+  ts->SetPadTickY(1);
+  ts->SetGridColor(0);
+  ts->SetGridStyle(3);
+  ts->SetGridWidth(1);
+
+
+  ts->SetTitleColor(1, "XYZ");
+  ts->SetTitleFont(42, "XYZ");
+  ts->SetTitleSize(0.05, "XYZ");
+  // ts->SetTitleXSize(Float_t size = 0.02); // Another way to set the size?
+  // ts->SetTitleYSize(Float_t size = 0.02);
+  ts->SetTitleXOffset(1.15);//0.9);
+  ts->SetTitleYOffset(1.3); // => 1.15 if exponents
+  ts->SetLabelColor(1, "XYZ");
+  ts->SetLabelFont(42, "XYZ");
+  ts->SetLabelOffset(0.007, "XYZ");
+  ts->SetLabelSize(0.045, "XYZ");
+
+  ts->SetPadBorderMode(0);
+  ts->SetFrameBorderMode(0);
+  ts->SetTitleTextColor(1);
+  ts->SetTitleFillColor(10);
+  ts->SetTitleFontSize(0.05);
+  ts->cd();
+}
+
 void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
-	TCanvas* c1,*c2;
-	setNCUStyle();
-	c1 = new TCanvas("c1","",809,808);
+	TCanvas* c1;
+	c1 = new TCanvas("c1","", 600, 600);
+	//gStyle->SetTitleFontSize(0.01);
+	TStyle* ts=setNCUStyle();
+	//TStyle* ts=new TStyle();
+	
+	ts->SetTitleSize(0.045,"XYZ");
+	ts->SetLabelSize(0.05, "XYZ");
+	ts->SetLabelOffset(0.007, "XYZ");
+	ts->SetTitleOffset(1.3, "Y");
+	ts->SetTitleFontSize(0.005);
+	ts->SetPadLeftMargin(0.2);
+	ts->cd();
+	//setFPStyle();
 	double db1[8]={0};
 	double db2[8]={0};
 	double db3[7]={0};
@@ -520,8 +603,16 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 		//tg1[i]=new TGraph(8,massZ,db[i]);
 		if(option==2)tg1[i]->SetLineStyle(7);
 		if(i==1){
-			tg1[i]->SetLineColor(7);
-			tg2[i]->SetLineColor(7);
+			tg1[i]->SetLineColor(kOrange-3);
+			tg2[i]->SetLineColor(kOrange-3);
+		}
+		else if(i==2){
+			tg1[i]->SetLineColor(kCyan+2);
+			tg2[i]->SetLineColor(kCyan+2);
+		}
+		else if(i==4){
+			tg1[i]->SetLineColor(kGreen+3);
+			tg2[i]->SetLineColor(kGreen+3);
 		}
 		else{
 			tg1[i]->SetLineColor(i+1);
@@ -529,9 +620,17 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 		} 
 		tg1[i]->SetTitle("");
 		tg2[i]->SetTitle("");
-		if (i==1){
-			tg1[i]->SetMarkerColor(7);
-			tg2[i]->SetMarkerColor(7);
+		if(i==1){
+			tg1[i]->SetMarkerColor(kOrange-3);
+			tg2[i]->SetMarkerColor(kOrange-3);
+		}
+		else if(i==2){
+			tg1[i]->SetMarkerColor(kCyan+2);
+			tg2[i]->SetMarkerColor(kCyan+2);
+		}
+		else if(i==4){
+			tg1[i]->SetMarkerColor(kGreen+3);
+			tg2[i]->SetMarkerColor(kGreen+3);
 		}
 		else{
 			tg1[i]->SetMarkerColor(i+1);
@@ -541,6 +640,9 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 		tg1[i]->SetLineWidth(3);
 		tg2[i]->SetFillColor(0);
 		tg2[i]->SetLineWidth(3);
+		if(option ==2)  tg1[i]->GetYaxis()->SetTitle("#sigma_{95% CL} / #sigma_{th} ");
+		
+		//tg1[i]->GetYaxis()->SetFontSize(0.03);
 		
 		if(i==0){
 			tg1[i]->Draw("APL");
@@ -559,7 +661,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	
 	TLegend* leg ;
 	if(option==1)leg=new TLegend(0.711452,0.152447,0.980645,0.53966);
-	else leg=new TLegend(0.711452,0.652447,0.960645,0.913966);
+	else leg=new TLegend(0.711452,0.652447,0.940645,0.913966);
 	
 	leg->AddEntry(tg1[0],"m_{A0}=300GeV");
 	leg->AddEntry(tg1[1],"m_{A0}=400GeV");
@@ -582,10 +684,11 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	leg->Draw("same");
 	
 	TLegend* leg2 ;
-	leg2=new TLegend(0.451452,0.752447,0.711452,0.913966);
+	leg2=new TLegend(0.551452,0.802447,0.711452,0.913966);
 	TH1D* thL1=new TH1D("","",1,0,1);
 	TH1D* thL2=new TH1D("","",1,0,1);
 	
+	thL2->SetMarkerSize(0);
 	thL2->SetLineStyle(7);
 	leg2->AddEntry(thL1,"observed");
 	leg2->AddEntry(thL2,"expected");
@@ -598,8 +701,15 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
     latex->SetTextAlign(10); // align left
     latex->SetNDC(kTRUE);                 
 	latex->SetTextSize(0.06);    
-	latex->SetTextFont(42);
-    if(option==2)  latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
+	//latex->SetTextFont(42);
+    if(option==2) {
+	    latex->SetTextSize(0.032);    
+	//latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+     latex->DrawLatex(0.15, 0.87,"CMS");
+     latex->DrawLatex(0.15, 0.84,"Z'#rightarrow DM+H(b#bar{b}) (2HDM)");
+     
+    } 
 	
 	else  latex->DrawLatex(0.15, 0.92, Form("CMS                    %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
