@@ -85,6 +85,8 @@ void plot_Asymptotic_altascombine(string outputdir, string mode)
   bool useNewStyle = true;
   //if (useNewStyle)  setFPStyle();
 TStyle* ts=setNCUStyle(0);
+ts->SetTitleSize(0.045,"XYZ");
+ts->SetTitleOffset(1.3, "Y");
 ts->SetLabelSize(0.04, "XYZ");
 
 ts->SetPadGridX(false);
@@ -677,14 +679,14 @@ for(int i=0;i<8;i++){
     latex->DrawLatex(0.18, 0.87, "CMS ");
     latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
         
-    latex->DrawLatex(0.18,0.835, "Z'#rightarrow DM+H(b#bar{b}) (2HDM)");
+    latex->DrawLatex(0.18,0.835, "Z'#rightarrow DM+H(2HDM)");
     latex->DrawLatex(0.18,0.8, "M_{A0} = 300 GeV, M_{#chi} = 100 GeV");
     
     //latex->SetTextAlign(11);
-    latex->DrawLatex(0.18,0.5, " H#rightarrow#gamma#gamma");
+    latex->DrawLatex(0.18,0.48, " H#rightarrow#gamma#gamma");
     
     //latex->SetTextAlign(10);
-    latex->DrawLatex(0.18,0.4, " H#rightarrowbb");
+    latex->DrawLatex(0.18,0.3, "                                                            H#rightarrowbb");
     if(mode == "atlas")latex->DrawLatex(0.18,0.765, "g_{z} = 0.8, tan#beta = 1");
     if(mode == "cms") latex->DrawLatex(0.18,0.755, "g_{Z}<= 0.03#times#frac{g_{W}}{cos#theta_{W}#timessin^{2}#beta}#times #frac{#sqrt{M_{Z'}^{2}-M_{Z}^{2}}}{M_{Z}}");
     if(mode == "cms") latex->DrawLatex(0.18,0.69, "tan#beta = 1");

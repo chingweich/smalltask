@@ -35,8 +35,10 @@
 TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp=0){
 	TCanvas* c1,*c2;
 	TStyle* ts =setNCUStyle();
-	ts->SetPadRightMargin(0.14);
-	c1 = new TCanvas("c1","",889,768);
+	ts->SetPadRightMargin(0.17);
+	ts->SetTitleOffset(0.65, "Z");
+	ts->SetTitleOffset(0.8, "Y");
+	c1 = new TCanvas("c1","",1000,768);
 	
 	int massZ[8]={600,800,1000,1200,1400,1700,2000,2500};
 	int inputZ[8]={1,2,3,4,5,7,8,11};
@@ -104,6 +106,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 		th2[2]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 		th2[3]->GetYaxis()->SetBinLabel(j+1,Form("%d",massA[j]));
 	}
+	th2[3]->SetZTitle("#sigma_{95% CL} / #sigma_{th}");
 	th2[2]->Draw("colz,text");
 	c1->Print("expected.pdf");
 	th2[3]->Draw("colz,text");
@@ -118,6 +121,7 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
    //th2[3]->SetLogz(1);
    p1->SetLogz();
    th2[3]->Draw("colzTEXT");
+   
    p1->Update();
    Double_t x1,y1,x2,y2;
    gPad->GetRange(x1,y1,x2,y2);
@@ -151,6 +155,9 @@ TH2D* small0706Base(string inputDir,string outputName,int option=0,int retrunexp
 	//latex->SetTextFont(42);
     latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
      latex->DrawLatex(0.15, 0.84,"CMS");
+      latex->DrawLatex(0.15, 0.81,"Z'#rightarrow DM+H");
+      latex->DrawLatex(0.15, 0.77," (2HDM)");
+      latex->DrawLatex(0.15, 0.73," H#rightarrowbb #plus H#rightarrow#gamma#gamma");
      
 	c1->Print(Form("plot/%s.pdf",outputName.data()));
 	c1->SaveAs(Form("plot/%s.png",outputName.data()));
@@ -429,7 +436,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	for(int j=0;j<6;j++)db4[j]=th1[0]->GetBinContent(j+3,4);
 	
 	
-	for(int j=0;j<5;j++)db5[j]=th1[0]->GetBinContent(j+4,5);
+	for(int j=0;j<6;j++)db5[j]=th1[0]->GetBinContent(j+3,5);
 	for(int j=0;j<6;j++)db6[j]=th1[0]->GetBinContent(j+3,6);
 	
 	for(int j=0;j<8;j++)db21[j]=th1[1]->GetBinContent(j+1,1);
@@ -438,7 +445,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	for(int j=0;j<6;j++)db24[j]=th1[1]->GetBinContent(j+3,4);
 	
 	
-	for(int j=0;j<5;j++)db25[j]=th1[1]->GetBinContent(j+4,5);
+	for(int j=0;j<6;j++)db25[j]=th1[1]->GetBinContent(j+3,5);
 	for(int j=0;j<6;j++)db26[j]=th1[1]->GetBinContent(j+3,6);
 	
 	TGraph* tg1[6];
@@ -447,7 +454,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	tg1[1]=new TGraph(8,massZ,db2);
 	tg1[2]=new TGraph(7,massZ2,db3);
 	tg1[3]=new TGraph(6,massZ3,db4);
-	tg1[4]=new TGraph(5,massZ4,db5);
+	tg1[4]=new TGraph(6,massZ3,db5);
 	tg1[5]=new TGraph(6,massZ3,db6);
 	
 	
@@ -457,7 +464,7 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
 	tg2[1]=new TGraph(8,massZ,db22);
 	tg2[2]=new TGraph(7,massZ2,db23);
 	tg2[3]=new TGraph(6,massZ3,db24);
-	tg2[4]=new TGraph(5,massZ4,db25);
+	tg2[4]=new TGraph(6,massZ3,db25);
 	tg2[5]=new TGraph(6,massZ3,db26);
 	
 	
