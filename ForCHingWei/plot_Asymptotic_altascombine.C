@@ -677,7 +677,8 @@ for(int i=0;i<8;i++){
     latex->SetTextAlign(10); // align left
     latex->SetNDC(kTRUE);                                                                                                                         latex->SetTextFont(62);
     latex->DrawLatex(0.18, 0.87, "CMS ");
-    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+    latex->SetTextFont(42);
+    latex->DrawLatex(0.15, 0.92, Form("                                                                             %.1f fb^{-1} ( 13 TeV )", 2.32));
         
     latex->DrawLatex(0.18,0.835, "Z'#rightarrow DM+H(2HDM)");
     latex->DrawLatex(0.18,0.8, "M_{A0} = 300 GeV, M_{#chi} = 100 GeV");

@@ -443,11 +443,12 @@ TH2D* small0706Compare(string inputDir[],string outputName,int option=0,int retr
     latex->SetNDC(kTRUE);                                                                                                                        
 	latex->SetTextSize(0.04);    
 	//latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+   
      latex->DrawLatex(0.15, 0.84,"CMS");
+      latex->SetTextFont(42);
       latex->DrawLatex(0.15, 0.81,"Z'#rightarrow DM+H(b#bar{b})");
       latex->DrawLatex(0.15, 0.77," (2HDM)");
-	
+	 latex->DrawLatex(0.15, 0.92, Form("                                                                                        %.1f fb^{-1} ( 13 TeV )", 2.32));
 	
 
 		//latex->DrawLatex(0.18, 0.885, );
@@ -713,9 +714,12 @@ void smallDrawTGragh(string outputName,TH2D* th1[],int option=0){
     if(option==2) {
 	    latex->SetTextSize(0.032);    
 	//latex->SetTextFont(42);
-    latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+    //latex->DrawLatex(0.15, 0.92, Form("                                                                  %.1f fb^{-1} ( 13 TeV )", 2.32));
+     
      latex->DrawLatex(0.15, 0.87,"CMS");
+      latex->SetTextFont(42);
      latex->DrawLatex(0.15, 0.84,"Z'#rightarrow DM+H(b#bar{b}) (2HDM)");
+     latex->DrawLatex(0.15, 0.92, Form("                                                                             %.1f fb^{-1} ( 13 TeV )", 2.32));
      
     } 
 	

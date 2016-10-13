@@ -11,18 +11,18 @@
 ./small0706_C.so: /home/neutron/root/include/RVersion.h
 ./small0706_C.so: /home/neutron/root/include/DllImport.h
 ./small0706_C.so: /home/neutron/root/include/Rtypeinfo.h
-./small0706_C.so: /usr/include/c++/5/typeinfo
+./small0706_C.so: /usr/include/c++/6/typeinfo
 ./small0706_C.so: /home/neutron/root/include/snprintf.h
 ./small0706_C.so: /home/neutron/root/include/strlcpy.h
-./small0706_C.so: /usr/include/c++/5/atomic
+./small0706_C.so: /usr/include/c++/6/atomic
 ./small0706_C.so: /home/neutron/root/include/TGenericClassInfo.h
-./small0706_C.so: /usr/include/c++/5/vector
+./small0706_C.so: /usr/include/c++/6/vector
 ./small0706_C.so: /home/neutron/root/include/TSchemaHelper.h
-./small0706_C.so: /usr/include/c++/5/string
+./small0706_C.so: /usr/include/c++/6/string
 ./small0706_C.so: /home/neutron/root/include/TStorage.h
 ./small0706_C.so: /home/neutron/root/include/TVersionCheck.h
 ./small0706_C.so: /home/neutron/root/include/Riosfwd.h
-./small0706_C.so: /usr/include/c++/5/iosfwd
+./small0706_C.so: /usr/include/c++/6/iosfwd
 ./small0706_C.so: /home/neutron/root/include/TBuffer.h
 ./small0706_C.so: /home/neutron/root/include/TAttLine.h
 ./small0706_C.so: /home/neutron/root/include/TAttFill.h
@@ -31,16 +31,16 @@
 ./small0706_C.so: /home/neutron/root/include/TPoint.h
 ./small0706_C.so: /home/neutron/root/include/TString.h
 ./small0706_C.so: /home/neutron/root/include/TMathBase.h
-./small0706_C.so: /usr/include/c++/5/cstdlib /usr/include/c++/5/cmath
+./small0706_C.so: /usr/include/c++/6/cstdlib /usr/include/c++/6/cmath
 ./small0706_C.so: /home/neutron/root/include/RStringView.h
 ./small0706_C.so: /home/neutron/root/include/RConfigure.h
 ./small0706_C.so: /home/neutron/root/include/RWrap_libcpp_string_view.h
-./small0706_C.so: /usr/include/c++/5/algorithm /usr/include/c++/5/iterator
-./small0706_C.so: /usr/include/c++/5/ostream /usr/include/c++/5/iomanip
-./small0706_C.so: /usr/include/c++/5/stdexcept
+./small0706_C.so: /usr/include/c++/6/algorithm /usr/include/c++/6/iterator
+./small0706_C.so: /usr/include/c++/6/ostream /usr/include/c++/6/iomanip
+./small0706_C.so: /usr/include/c++/6/stdexcept
 ./small0706_C.so: /home/neutron/root/include/libcpp_string_view.h
 ./small0706_C.so: /home/neutron/root/include/TAttText.h
-./small0706_C.so: /usr/include/c++/5/iostream /usr/include/c++/5/fstream
+./small0706_C.so: /usr/include/c++/6/iostream /usr/include/c++/6/fstream
 ./small0706_C.so: /home/neutron/root/include/TH1D.h
 ./small0706_C.so: /home/neutron/root/include/TH1.h
 ./small0706_C.so: /home/neutron/root/include/TAxis.h
@@ -57,12 +57,12 @@
 ./small0706_C.so: /home/neutron/root/include/TVectorFfwd.h
 ./small0706_C.so: /home/neutron/root/include/TVectorDfwd.h
 ./small0706_C.so: /home/neutron/root/include/TFitResultPtr.h
-./small0706_C.so: /usr/include/c++/5/memory
+./small0706_C.so: /usr/include/c++/6/memory
 ./small0706_C.so: /home/neutron/root/include/TRandom.h
 ./small0706_C.so: /home/neutron/root/include/TLorentzVector.h
 ./small0706_C.so: /home/neutron/root/include/TMath.h
 ./small0706_C.so: /home/neutron/root/include/TError.h
-./small0706_C.so: /usr/include/c++/5/limits
+./small0706_C.so: /usr/include/c++/6/limits
 ./small0706_C.so: /home/neutron/root/include/TVector3.h
 ./small0706_C.so: /home/neutron/root/include/TVector2.h
 ./small0706_C.so: /home/neutron/root/include/TMatrix.h
@@ -96,7 +96,7 @@
 ./small0706_C.so: /home/neutron/root/include/TVirtualPad.h
 ./small0706_C.so: /home/neutron/root/include/TAttPad.h
 ./small0706_C.so: /home/neutron/root/include/TVirtualX.h
-./small0706_C.so: /usr/include/c++/5/utility
+./small0706_C.so: /usr/include/c++/6/utility
 ./small0706_C.so: /home/neutron/root/include/Buttons.h
 ./small0706_C.so: /home/neutron/root/include/TQObject.h
 ./small0706_C.so: /home/neutron/root/include/TQObjectEmitVA.h
@@ -119,14 +119,14 @@
 ./small0706_C.so: /home/neutron/root/include/ThreadLocalStorage.h
 ./small0706_C.so: /home/neutron/root/include/TStyle.h
 ./small0706_C.so: /home/neutron/root/include/TColor.h untuplizer.h
-./small0706_C.so: /usr/include/c++/5/map /home/neutron/root/include/TChain.h
+./small0706_C.so: /usr/include/c++/6/map /home/neutron/root/include/TChain.h
 ./small0706_C.so: /home/neutron/root/include/TTree.h
 ./small0706_C.so: /home/neutron/root/include/TBranch.h
 ./small0706_C.so: /home/neutron/root/include/TObjArray.h
 ./small0706_C.so: /home/neutron/root/include/TDataType.h
 ./small0706_C.so: /home/neutron/root/include/TClass.h
 ./small0706_C.so: /home/neutron/root/include/TObjString.h
-./small0706_C.so: /usr/include/c++/5/set /usr/include/c++/5/unordered_set
+./small0706_C.so: /usr/include/c++/6/set /usr/include/c++/6/unordered_set
 ./small0706_C.so: /home/neutron/root/include/TVirtualTreePlayer.h
 ./small0706_C.so: /home/neutron/root/include/TLeafF.h
 ./small0706_C.so: /home/neutron/root/include/TLeaf.h
@@ -142,14 +142,14 @@
 ./small0706_C.so: /home/neutron/root/include/TLeafElement.h
 ./small0706_C.so: /home/neutron/root/include/TBranchElement.h
 ./small0706_C.so: /home/neutron/root/include/TClonesArray.h
-./small0706_C.so: /usr/include/c++/5/sstream setNCUStyle.C
+./small0706_C.so: /usr/include/c++/6/sstream setNCUStyle.C
 ./small0706_C.so: /home/neutron/root/include/TH2.h
 ./small0706_C.so: /home/neutron/root/include/TLine.h
 ./small0706_C.so: /home/neutron/root/include/TF1.h
 ./small0706_C.so: /home/neutron/root/include/TFormula.h
 ./small0706_C.so: /home/neutron/root/include/TBits.h
 ./small0706_C.so: /home/neutron/root/include/TMethodCall.h
-./small0706_C.so: /usr/include/c++/5/list
+./small0706_C.so: /usr/include/c++/6/list
 ./small0706_C.so: /home/neutron/root/include/Math/ParamFunctor.h
 ./small0706_C.so: /home/neutron/root/include/TGraphAsymmErrors.h
 ./small0706_C.so: /home/neutron/root/include/TLatex.h

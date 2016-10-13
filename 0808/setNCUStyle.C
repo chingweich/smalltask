@@ -95,7 +95,7 @@ TStyle* setNCUStyle(bool gridOn=false) {
 // For the Global title:
 
   //ncuStyle->SetOptTitle(0);
-  ncuStyle->SetTitleFont(62);
+  ncuStyle->SetTitleFont(42);
   ncuStyle->SetTitleColor(1);
   ncuStyle->SetTitleTextColor(1);
   ncuStyle->SetTitleFillColor(10);
@@ -121,7 +121,7 @@ TStyle* setNCUStyle(bool gridOn=false) {
 // For the axis labels:
   ncuStyle->SetLabelColor(1, "XYZ");
   // the following command is not doing any thing
-   ncuStyle->SetLabelFont(22, "XYZ");
+   ncuStyle->SetLabelFont(42, "XYZ");
   ncuStyle->SetLabelOffset(0.007, "XYZ");
   ncuStyle->SetLabelSize(0.06, "XYZ");
 
