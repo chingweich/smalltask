@@ -303,7 +303,7 @@ ts->SetPadGridX(false);
   TString VV = "ZH";
   
   //std::cout<<" working upto this point "<<std::endl;
-  hr->SetXTitle("M_{Z'} [GeV]");
+  hr->SetXTitle("m_{Z'} [GeV]");
   hr->GetXaxis()->SetNdivisions(508);
   //hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)#timesBR(H#rightarrowb#bar{b})[pb]"); // #rightarrow 2l2q
   hr->SetYTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
@@ -334,7 +334,7 @@ ts->SetPadGridX(false);
   gr68_cls->SetLineStyle(kDashed);
   gr68_cls->SetLineWidth(3);
   //gr68_cls->Draw("3same");
-  grmedian_cls->GetXaxis()->SetTitle("M_{Z'} [GeV]");
+  grmedian_cls->GetXaxis()->SetTitle("m_{Z'} [GeV]");
   grmedian_cls->GetYaxis()->SetTitle("95% CLs on #sigma(Z`#rightarrow#chi#bar{#chi}H)[pb]"); // #rightarrow 2l2q
   grmedian_cls->SetMarkerStyle(24);//25=hollow squre
   grmedian_cls->SetMarkerColor(kBlack);
